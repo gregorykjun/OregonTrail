@@ -11,30 +11,105 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Controller implements Initializable {
     private Image backpack = new Image("resources/Backpack.png");
-
+    //@FXML
+    //private Ellipse easyDescription, normalDescription;
     @FXML
-    private Label lbl1,lbl2;
+    private ImageView easyModeImage, normalModeImage, hardModeImage;
     @FXML
-    private Button startMenuBtn, window;
+    private TextArea characterDescription;
+    @FXML
+    private Label lbl1,lbl2, selection;
+    @FXML
+    private Button startMenuBtn, window, confirmBtn;
     @FXML
     private TabPane tabPane;
+    private DropShadow borderSelect = new DropShadow();
     @FXML
     private void handleButtonAction (ActionEvent event) throws Exception {
         tabPane.getSelectionModel().select(1);
-        initialize();
+        easyModeImage.setImage(new Image("resources/ForwardEasyCharacter.png"));
+        normalModeImage.setImage(new Image("resources/ForwardNormalCharacter.png"));
+        hardModeImage.setImage(new Image("resources/ForwardHardCharacter.png"));
+    }
+    @FXML
+    private void easyDescription(){
+        characterDescription.setVisible(true);
+        characterDescription.setText("Easiest character to play. Increased chance of succeeding events, receiving beneficial events, and receives a boost to amount of food gained from each hunt. Has a wife but no children. Starts with X gold");
+        //This is the on mouse hover action to show the description of the character
+    }
+    @FXML
+    private void easyModeClicked(){
+        borderSelect.setOffsetY(easyModeImage.getX());
+        borderSelect.setOffsetX(easyModeImage.getY());
+        borderSelect.setColor(Color.GOLD);
+        borderSelect.setWidth(easyModeImage.getFitWidth());
+        borderSelect.setHeight(easyModeImage.getFitHeight());
+        easyModeImage.setEffect(borderSelect);
+        normalModeImage.setEffect(null);
+        hardModeImage.setEffect(null);
+        selection.setVisible(true);
+        confirmBtn.setVisible(true);
+        //When clicked, this highlights the image of the character and prepares the player onto the next screen
+    }
+    @FXML
+    private void normalDescription(){
+        characterDescription.setVisible(true);
+        characterDescription.setText("Average character. Has one wife and one child to travel with. Starts with X gold");
+        //This is the on mouse hover action to show the description of the character
+    }
+    @FXML
+    private void normalModeClicked(){
+        borderSelect.setOffsetY(normalModeImage.getX());
+        borderSelect.setOffsetX(normalModeImage.getY());
+        borderSelect.setColor(Color.GOLD);
+        borderSelect.setWidth(normalModeImage.getFitWidth());
+        borderSelect.setHeight(normalModeImage.getFitHeight());
+        normalModeImage.setEffect(borderSelect);
+        easyModeImage.setEffect(null);
+        hardModeImage.setEffect(null);
+        selection.setVisible(true);
+        confirmBtn.setVisible(true);
+        //When clicked, this highlights the image of the character and prepares the player onto the next screen
+    }
+    @FXML
+    private void hardDescription(){
+        characterDescription.setVisible(true);
+        characterDescription.setText("Hardest character to play. 1 wife, 2 children, increased chance to fail events and receive negative events. Starts with X gold");
+        //This is the on mouse hover action to show the description of the character
+    }
+    @FXML
+    private void hardModeClicked(){
+        borderSelect.setOffsetY(hardModeImage.getX());
+        borderSelect.setOffsetX(hardModeImage.getY());
+        borderSelect.setColor(Color.GOLD);
+        borderSelect.setWidth(hardModeImage.getFitWidth());
+        borderSelect.setHeight(hardModeImage.getFitHeight());
+        hardModeImage.setEffect(borderSelect);
+        normalModeImage.setEffect(null);
+        easyModeImage.setEffect(null);
+        selection.setVisible(true);
+        confirmBtn.setVisible(true);
+        //When clicked, this highlights the image of the character and prepares the player onto the next screen
+    }
+    @FXML
+    private void clearDescription(){
+        characterDescription.setVisible(false);
+        characterDescription.clear();
+        //This clears the text field when the mouse has left the image.
     }
     @FXML
     private void handleItems() throws IOException {
