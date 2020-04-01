@@ -61,7 +61,7 @@
                               <Font name="Courier New" size="15.0" />
                            </font>
                         </Label>
-                        <Button fx:id="confirmBtn" layoutX="607.0" layoutY="257.0" mnemonicParsing="false" text="Confirm">
+                        <Button fx:id="confirmBtn" layoutX="607.0" layoutY="257.0" mnemonicParsing="false" onAction="#confirmSelectionCharacter" text="Confirm" visible="false">
                            <font>
                               <Font name="Courier New" size="14.0" />
                            </font>
@@ -77,21 +77,21 @@
                                     <font>
                                         <Font name="Courier New" size="18.0" />
                                     </font></Label>
-                                <TextField layoutX="297.0" layoutY="276.0">
+                                <TextField fx:id="C1Name" layoutX="297.0" layoutY="276.0">
                                     <font>
                                         <Font name="Courier New" size="12.0" />
                                     </font></TextField>
-                                <TextField layoutX="297.0" layoutY="323.0">
+                                <TextField fx:id="C2Name" layoutX="297.0" layoutY="323.0">
                                     <font>
                                         <Font name="Courier New" size="12.0" />
                                     </font>
                                 </TextField>
-                                <TextField layoutX="297.0" layoutY="228.0">
+                                <TextField fx:id="WName" layoutX="297.0" layoutY="228.0">
                                     <font>
                                         <Font name="Courier New" size="12.0" />
                                     </font>
                                 </TextField>
-                                <TextField layoutX="297.0" layoutY="181.0">
+                                <TextField fx:id="MCName" layoutX="297.0" layoutY="181.0">
                                     <font>
                                         <Font name="Courier New" size="12.0" />
                                     </font>
@@ -101,17 +101,23 @@
                                         <Font name="Courier New" size="18.0" />
                                     </font>
                                 </Label>
-                                <Label layoutX="156.0" layoutY="276.0" text="Child 1 Name:" textFill="WHITE">
+                                <Label fx:id="C1lbl" layoutX="156.0" layoutY="276.0" text="Child 1 Name:" textFill="WHITE">
                                     <font>
                                         <Font name="Courier New" size="18.0" />
                                     </font>
                                 </Label>
-                                <Label layoutX="156.0" layoutY="323.0" text="Child 2 Name:" textFill="WHITE">
+                                <Label fx:id="C2lbl" layoutX="156.0" layoutY="323.0" text="Child 2 Name:" textFill="WHITE">
                                     <font>
                                         <Font name="Courier New" size="18.0" />
                                     </font>
                                 </Label>
                                 <Ellipse fill="#eaf2c7" layoutX="347.0" layoutY="131.0" radiusX="42.0" radiusY="20.0" stroke="BLACK" strokeType="INSIDE" />
+                        <ImageView fx:id="MCImage" fitHeight="88.0" fitWidth="76.0" layoutX="310.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button fx:id="startGameBtn" layoutX="303.0" layoutY="364.0" mnemonicParsing="false" onAction="#startGame" text="Start Game">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font>
+                        </Button>
                             </children></AnchorPane>
                     </content>
                 </Tab>
@@ -136,8 +142,6 @@
                                                 <Image url="@../resources/Backpack.png" />
                                             </image>
                                         </ImageView>
-                                        <Button fx:id="window" layoutY="2.0" mnemonicParsing="false" text="Button" visible="false" />
-                                        <Button fx:id="btnControl" layoutX="350.0" layoutY="334.0" mnemonicParsing="false" onAction="#controlPressed" text="Button" />
                                     </children>
                                 </Pane>
                             </children>

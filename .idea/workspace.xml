@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="testing commit">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -92,7 +92,7 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="D:/Card Game Project/3-12 Steal, Discard - School/Cards - Server Template IDEA" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -217,51 +217,31 @@
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <MESSAGE value="testing commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="testing commit" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="490" y="230" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1585619612212">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="490" y="230" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1280.680@0.0.1280.680" timestamp="1585619612212" />
-    <state x="291" y="0" key="CommitChangelistDialog2" timestamp="1585619779388">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="291" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1585619779388" />
-    <state x="421" y="96" key="FileChooserDialogImpl" timestamp="1585356600990">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="421" y="96" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1585356600990" />
-    <state width="251" height="147" key="GridCell.Tab.0.bottom" timestamp="1585422726246">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="251" height="147" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1585422726246" />
-    <state width="251" height="147" key="GridCell.Tab.0.center" timestamp="1585422726246">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="251" height="147" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1585422726246" />
-    <state width="251" height="147" key="GridCell.Tab.0.left" timestamp="1585422726246">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="251" height="147" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1585422726246" />
-    <state width="251" height="147" key="GridCell.Tab.0.right" timestamp="1585422726246">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state width="251" height="147" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1585422726246" />
-    <state x="142" y="0" key="SettingsEditor" timestamp="1585619533081">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1585619533081" />
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2" timestamp="1585619792063">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1585619792063" />
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1585619567023">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1585619567023" />
-    <state x="91" y="43" key="new project wizard" timestamp="1585421793027">
-      <screen x="0" y="0" width="1280" height="680" />
-    </state>
-    <state x="91" y="43" key="new project wizard/0.0.1280.680@0.0.1280.680" timestamp="1585421793027" />
+    <state x="490" y="230" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" />
+    <state x="490" y="230" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1280.680@0.0.1280.680" />
+    <state x="291" y="0" key="CommitChangelistDialog2" />
+    <state x="291" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" />
+    <state x="421" y="96" key="FileChooserDialogImpl" />
+    <state x="421" y="96" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" />
+    <state width="251" height="147" key="GridCell.Tab.0.bottom" />
+    <state width="251" height="147" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" />
+    <state width="251" height="147" key="GridCell.Tab.0.center" />
+    <state width="251" height="147" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" />
+    <state width="251" height="147" key="GridCell.Tab.0.left" />
+    <state width="251" height="147" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" />
+    <state width="251" height="147" key="GridCell.Tab.0.right" />
+    <state width="251" height="147" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" />
+    <state x="142" y="0" key="SettingsEditor" />
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" />
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2" />
+    <state x="233" y="74" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" />
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" />
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" />
+    <state x="91" y="43" key="new project wizard" />
+    <state x="91" y="43" key="new project wizard/0.0.1280.680@0.0.1280.680" />
   </component>
 </project>

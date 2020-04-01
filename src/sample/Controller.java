@@ -28,16 +28,35 @@ public class Controller implements Initializable {
     //@FXML
     //private Ellipse easyDescription, normalDescription;
     @FXML
+    private TabPane tabPane;
+    private String MainCharacterName, WifeName, Child1Name, Child2Name;
+    private DropShadow borderSelect = new DropShadow();
+
+
+    @FXML
     private ImageView easyModeImage, normalModeImage, hardModeImage;
     @FXML
     private TextArea characterDescription;
     @FXML
-    private Label lbl1,lbl2, selection;
+    private Label selection;
     @FXML
-    private Button startMenuBtn, window, confirmBtn;
+    private Button window, confirmBtn;
+    //This is tabPane 0 and 1
+
     @FXML
-    private TabPane tabPane;
-    private DropShadow borderSelect = new DropShadow();
+    private ImageView MCImage;
+    @FXML
+    private TextField MCName, WName, C1Name, C2Name;
+    @FXML
+    private Label C1lbl, C2lbl;
+    @FXML
+    private Button startGameBtn;
+
+
+
+    @FXML
+    private Button startMenuBtn;
+    private boolean Easy=false, Normal=false, Hard=false          , EasySelected = false, NormalSelected = false, HardSelected = false;
     @FXML
     private void handleButtonAction (ActionEvent event) throws Exception {
         tabPane.getSelectionModel().select(1);
@@ -63,6 +82,9 @@ public class Controller implements Initializable {
         hardModeImage.setEffect(null);
         selection.setVisible(true);
         confirmBtn.setVisible(true);
+        EasySelected = true;
+        NormalSelected = false;
+        HardSelected = false;
         //When clicked, this highlights the image of the character and prepares the player onto the next screen
     }
     @FXML
@@ -83,12 +105,15 @@ public class Controller implements Initializable {
         hardModeImage.setEffect(null);
         selection.setVisible(true);
         confirmBtn.setVisible(true);
+        EasySelected = false;
+        NormalSelected = true;
+        HardSelected = false;
         //When clicked, this highlights the image of the character and prepares the player onto the next screen
     }
     @FXML
     private void hardDescription(){
         characterDescription.setVisible(true);
-        characterDescription.setText("Hardest character to play. 1 wife, 2 children, increased chance to fail events and receive negative events. Starts with X gold");
+        characterDescription.setText("Hardest character to play. 1 wife, 2 children, increased chance to fail events and receive negative events. People really aren't sure why he's travelling. Starts with X gold");
         //This is the on mouse hover action to show the description of the character
     }
     @FXML
@@ -103,6 +128,9 @@ public class Controller implements Initializable {
         easyModeImage.setEffect(null);
         selection.setVisible(true);
         confirmBtn.setVisible(true);
+        EasySelected = false;
+        NormalSelected = false;
+        HardSelected = true;
         //When clicked, this highlights the image of the character and prepares the player onto the next screen
     }
     @FXML
@@ -112,14 +140,77 @@ public class Controller implements Initializable {
         //This clears the text field when the mouse has left the image.
     }
     @FXML
+    private void confirmSelectionCharacter(){
+        if (EasySelected){
+            Easy = true;
+        }
+        else if (NormalSelected){
+            Normal = true;
+        }
+        else {
+            Hard = true;
+        }
+        tabPane.getSelectionModel().select(2);
+        checkMode();
+        //This is a button that confirms the difficulty the player selected and will load up all the stats needed. I plan on using subs and supers to use this class.
+    }
+    @FXML
+    private void startGame(){
+        if (Easy){
+            if (!MCName.getText().equals("")){
+                if (!WName.getText().equals("")){
+                    tabPane.getSelectionModel().select(3);
+                    initialize();
+                    controlPressed();
+                }
+            }
+        }
+        else if (Normal){
+            if (!MCName.getText().equals("")){
+                if (!WName.getText().equals("")){
+                    if (!C1Name.getText().equals("")){
+                        tabPane.getSelectionModel().select(3);
+                        initialize();
+                        controlPressed();
+                    }
+                }
+            }
+        }
+        else if (Hard){
+            if (!MCName.getText().equals("")){
+                if (!WName.getText().equals("")){
+                    if (!C1Name.getText().equals("")){
+                        if (!C2Name.getText().equals("")){
+                            tabPane.getSelectionModel().select(3);
+                            initialize();
+                            controlPressed();
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private void checkMode(){
+        if (Easy){
+            C1lbl.setVisible(false);
+            C1Name.setVisible(false);
+            C2lbl.setVisible(false);
+            C2Name.setVisible(false);
+            MCImage.setImage(new Image("resources/ForwardEasyCharacter.png"));
+        }
+        else if (Normal){
+            C2lbl.setVisible(false);
+            C2Name.setVisible(false);
+            MCImage.setImage(new Image("resources/ForwardNormalCharacter.png"));
+        }
+        else {
+            MCImage.setImage(new Image("resources/ForwardHardCharacter.png"));
+        }
+        //This sets up tabpane 2 in order to make the player fill out the only tabs needed.
+    }
+    @FXML
     private void handleItems() throws IOException {
-        Stage stage;
-        Parent root;
-        stage = (Stage) window.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("Items.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+
         //Switches to items animation
     }
     public void start(){
@@ -166,31 +257,24 @@ public class Controller implements Initializable {
         // Sets the label of the Button based on the animation state
         //
         parallelTransition.statusProperty().addListener((obs, oldValue, newValue) -> {
-            if( newValue == Animation.Status.RUNNING ) {
-                btnControl.setText( "||" );
-            } else {
-                btnControl.setText( ">" );
-            }
         });
     }
-    public void startAnimation() {
+    private void startAnimation() {
 
         parallelTransition.play();
     }
 
-    public void pauseAnimation() {
+    private void pauseAnimation() {
         parallelTransition.pause();
     }
 
-    @FXML
-    public void controlPressed() {
+    private void controlPressed() {
         if( parallelTransition.getStatus() == Animation.Status.RUNNING ) {
             pauseAnimation();
         } else {
             startAnimation();
         }
     }
-
     //This code will pause and start the looping animation of my code
     @Override
     public void initialize(URL url, ResourceBundle rb) {
