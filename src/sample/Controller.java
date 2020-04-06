@@ -3,8 +3,10 @@ package sample;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 
 import javafx.animation.*;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,18 +24,22 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.converter.IntegerStringConverter;
 
 public class Controller implements Initializable {
     private Image backpack = new Image("resources/Backpack.png");
 
 
-    private int Cash;
+    private double Cash;
     private int Food;
     private int Ox;
     private int Bullets;
     private int SpareWheels;
     private int WheelsInUse = 4;
+    private int DaysLeft;
+    private int Day=0;
 
+    private double foodPrice, oxPrice, bulletPrice, wheelPrice;
 
     //@FXML
     //private Ellipse easyDescription, normalDescription;
@@ -65,9 +71,11 @@ public class Controller implements Initializable {
 
     //Tab pane 4
     @FXML
-    private Label cashOwned, foodOwned, oxOwned, bulletsOwned, wheelsOwned, foodPrice, oxPrice, bulletPrice, wheelPrice, foodCost, oxCost, bulletCost, wheelCost;
+    private Label cashOwned, foodOwned, oxOwned, bulletsOwned, wheelsOwned, foodPricelbl, oxPricelbl, bulletPricelbl, wheelPricelbl, foodCostlbl, oxCostlbl, bulletCostlbl, wheelCostlbl;
     @FXML
     private TextArea shopDescription;
+    @FXML
+    private TextField  foodPriceTF, oxPriceTF, bulletPriceTF, wheelPriceTF;
 
     @FXML
     private Button startMenuBtn;
@@ -163,6 +171,7 @@ public class Controller implements Initializable {
             Food = 50;
             Bullets = 10;
             SpareWheels = 0;
+            DaysLeft=300;
         }
         else if (NormalSelected){
             Normal = true;
@@ -171,6 +180,7 @@ public class Controller implements Initializable {
             Food = 30;
             Bullets = 15;
             SpareWheels = 0;
+            DaysLeft= 270;
         }
         else {
             Hard = true;
@@ -179,6 +189,7 @@ public class Controller implements Initializable {
             Food = 0;
             Bullets = 0;
             SpareWheels = 0;
+            DaysLeft=240;
         }
         tabPane.getSelectionModel().select(2);
         checkMode();
@@ -189,9 +200,10 @@ public class Controller implements Initializable {
         if (Easy){
             if (!MCName.getText().equals("")){
                 if (!WName.getText().equals("")){
+                    foodPriceTF.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
+
                     switchtoTabPane4();
                     initialize();
-                    controlPressed();
                 }
             }
         }
@@ -201,7 +213,6 @@ public class Controller implements Initializable {
                     if (!C1Name.getText().equals("")){
                         switchtoTabPane4();
                         initialize();
-                        controlPressed();
                     }
                 }
             }
@@ -213,12 +224,12 @@ public class Controller implements Initializable {
                         if (!C2Name.getText().equals("")){
                             switchtoTabPane4();
                             initialize();
-                            controlPressed();
                         }
                     }
                 }
             }
         }
+        //This checks to make sure the player has filled out something for the text field and proceeds onto the next screen
     }
     private void checkMode(){
         if (Easy){
@@ -283,9 +294,7 @@ public class Controller implements Initializable {
                 new ParallelTransition( translateTransition, translateTransition2 );
         parallelTransition.setCycleCount(Animation.INDEFINITE);
 
-        //
-        // Sets the label of the Button based on the animation state
-        //
+       //Animation for the third tabpane to a looping background.
         parallelTransition.statusProperty().addListener((obs, oldValue, newValue) -> {
         });
     }
@@ -315,51 +324,99 @@ public class Controller implements Initializable {
     private void foodDescription(){
         shopDescription.clear();
         shopDescription.setText("This will get you X pounds of food. Each family member will eat 4 pounds of food a day.");
+
+        //Sets the food description
     }
     @FXML
     private void oxDescription(){
         shopDescription.clear();
         shopDescription.setText("Ox is what is pulling your wagon to the Oregon Trail. Each ox (up to 4) will increase your travel speed. It's recommended to have around 3-5 ox in case of any injuries.");
+        //Sets the ox description
+
     }
     @FXML
     private void bulletDescription(){
         shopDescription.clear();
         shopDescription.setText("Bullets are used when hunting for more food. Cheap and very useful as shops become less frequent further along the trail.");
+        //Sets the food description
+
     }
     @FXML
     private void wheelDescription(){
         shopDescription.clear();
         shopDescription.setText("It's always recommended to carry extra wheel in case they get damaged during crossing a river or any other unforeseen events.");
+        //Sets the wheel description
+
     }
     @FXML
     private void clearShopDescription(){
         shopDescription.clear();
         shopDescription.setText("Welcome! Hover over an icon and I'll tell you its description.");
+        //Clears all description
     }
+
+    @FXML
+    private void foodBought(){
+
+    }
+
     @FXML
     private void foodConfirm(){
 
+        //purchases the item
     }
     @FXML
     private void oxConfirm(){
 
+        //purchases the item
     }
     @FXML
     private void bulletConfirm(){
 
+        //purchases the item
     }
     @FXML
     private void wheelConfirm(){
 
+        //purchases the item
+    }
+
+    private double roundtoHundreds( double multiplier){
+        return ((int)((Day*multiplier)*100))/100.0;
     }
 
     private void switchtoTabPane4(){
         tabPane.getSelectionModel().select(4);
+        if (Easy){
+            foodPrice =2 + roundtoHundreds(.005);
+            oxPrice = 300 + roundtoHundreds(.5);
+            bulletPrice = .5 + roundtoHundreds(.001);
+            wheelPrice = 20 + roundtoHundreds(.5);
+            //The price of the items increase by x amount for each day you are in the trail
+        }
+        else if (Normal){
+            foodPrice =2.5 + roundtoHundreds(.01);
+            oxPrice = 325 + roundtoHundreds(.75);
+            bulletPrice = .5 + roundtoHundreds(.0025);
+            wheelPrice = 25 + roundtoHundreds(.1);
+            //The price of the items increase by x amount for each day you are in the trail
+        }
+        else{
+            foodPrice =3 + roundtoHundreds(.015);
+            oxPrice = 350 + roundtoHundreds(1);
+            bulletPrice = .5 + roundtoHundreds(.003);
+            wheelPrice = 30 + roundtoHundreds(.15);
+            //The price of the items increase by x amount for each day you are in the trail
+        }
         cashOwned.setText("Cash Owned: " + Cash);
         bulletsOwned.setText("Bullets Owned " + Bullets);
         foodOwned.setText("Food Owned: " + Food);
         oxOwned.setText("Ox Owned: " + Ox);
         wheelsOwned.setText("Spare Wheels Owned: " + SpareWheels);
+        foodPricelbl.setText("$" + foodPrice);
+        oxPricelbl.setText("$" + oxPrice);
+        bulletPricelbl.setText("$" +bulletPrice);
+        wheelPricelbl.setText("$" + wheelPrice);
         //This is necessary to update all of the information as the tabpane is switched to the shop
     }
 

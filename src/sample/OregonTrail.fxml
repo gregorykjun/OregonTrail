@@ -216,22 +216,22 @@
                               <Image url="@../resources/wheels.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="foodPrice" layoutX="59.0" layoutY="214.0" text="Food_Price" textFill="WHITE">
+                        <Label fx:id="foodPricelbl" layoutX="59.0" layoutY="214.0" text="Food_Price" textFill="WHITE">
                            <font>
                               <Font name="Courier New" size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="oxPrice" layoutX="59.0" layoutY="261.0" text="Ox_Price" textFill="WHITE">
+                        <Label fx:id="oxPricelbl" layoutX="59.0" layoutY="261.0" text="Ox_Price" textFill="WHITE">
                            <font>
                               <Font name="Courier New" size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="bulletPrice" layoutX="59.0" layoutY="307.0" text="Bullet_Price" textFill="WHITE">
+                        <Label fx:id="bulletPricelbl" layoutX="59.0" layoutY="307.0" text="Bullet_Price" textFill="WHITE">
                            <font>
                               <Font name="Courier New" size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="wheelPrice" layoutX="59.0" layoutY="356.0" text="Wheel_Price" textFill="WHITE">
+                        <Label fx:id="wheelPricelbl" layoutX="59.0" layoutY="356.0" text="Wheel_Price" textFill="WHITE">
                            <font>
                               <Font name="Courier New" size="14.0" />
                            </font>
@@ -241,7 +241,7 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="foodPriceTF" layoutX="181.0" layoutY="208.0" prefHeight="22.0" prefWidth="48.0" />
+                        <TextField fx:id="foodPriceTF" layoutX="181.0" layoutY="208.0" onInputMethodTextChanged="#foodBought" prefHeight="22.0" prefWidth="48.0" />
                         <TextField fx:id="oxPriceTF" layoutX="181.0" layoutY="255.0" prefHeight="22.0" prefWidth="48.0" />
                         <TextField fx:id="bulletPriceTF" layoutX="181.0" layoutY="301.0" prefHeight="22.0" prefWidth="48.0" />
                         <TextField fx:id="wheelPriceTF" layoutX="181.0" layoutY="349.0" prefHeight="22.0" prefWidth="48.0" />
@@ -250,10 +250,10 @@
                               <Font name="Courier New" size="12.0" />
                            </font>
                         </Button>
-                        <Label fx:id="foodCost" layoutX="236.0" layoutY="212.0" text="BuyPrice" textFill="WHITE" />
-                        <Label fx:id="oxCost" layoutX="236.0" layoutY="259.0" text="BuyPrice" textFill="WHITE" />
-                        <Label fx:id="bulletCost" layoutX="236.0" layoutY="304.0" text="BuyPrice" textFill="WHITE" />
-                        <Label fx:id="wheelCost" layoutX="236.0" layoutY="354.0" text="BuyPrice" textFill="WHITE" />
+                        <Label fx:id="foodCostlbl" layoutX="236.0" layoutY="212.0" text="\$0" textFill="WHITE" />
+                        <Label fx:id="oxCostlbl" layoutX="236.0" layoutY="259.0" text="\$0" textFill="WHITE" />
+                        <Label fx:id="bulletCostlbl" layoutX="236.0" layoutY="304.0" text="\$0" textFill="WHITE" />
+                        <Label fx:id="wheelCostlbl" layoutX="236.0" layoutY="354.0" text="\$0" textFill="WHITE" />
                         <Button layoutX="308.0" layoutY="256.0" mnemonicParsing="false" onAction="#oxConfirm" text="Confirm">
                            <font>
                               <Font name="Courier New" size="12.0" />
