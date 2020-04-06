@@ -25,6 +25,16 @@ import javafx.util.Duration;
 
 public class Controller implements Initializable {
     private Image backpack = new Image("resources/Backpack.png");
+
+
+    private int Cash;
+    private int Food;
+    private int Ox;
+    private int Bullets;
+    private int SpareWheels;
+    private int WheelsInUse = 4;
+
+
     //@FXML
     //private Ellipse easyDescription, normalDescription;
     @FXML
@@ -43,6 +53,7 @@ public class Controller implements Initializable {
     private Button window, confirmBtn;
     //This is tabPane 0 and 1
 
+    //Tab pane 2
     @FXML
     private ImageView MCImage;
     @FXML
@@ -52,7 +63,11 @@ public class Controller implements Initializable {
     @FXML
     private Button startGameBtn;
 
-
+    //Tab pane 4
+    @FXML
+    private Label cashOwned, foodOwned, oxOwned, bulletsOwned, wheelsOwned, foodPrice, oxPrice, bulletPrice, wheelPrice, foodCost, oxCost, bulletCost, wheelCost;
+    @FXML
+    private TextArea shopDescription;
 
     @FXML
     private Button startMenuBtn;
@@ -143,12 +158,27 @@ public class Controller implements Initializable {
     private void confirmSelectionCharacter(){
         if (EasySelected){
             Easy = true;
+            Cash = 7500;
+            Ox = 2;
+            Food = 50;
+            Bullets = 10;
+            SpareWheels = 0;
         }
         else if (NormalSelected){
             Normal = true;
+            Cash = 5000;
+            Ox = 0;
+            Food = 30;
+            Bullets = 15;
+            SpareWheels = 0;
         }
         else {
             Hard = true;
+            Cash = 3000;
+            Ox = 0;
+            Food = 0;
+            Bullets = 0;
+            SpareWheels = 0;
         }
         tabPane.getSelectionModel().select(2);
         checkMode();
@@ -159,7 +189,7 @@ public class Controller implements Initializable {
         if (Easy){
             if (!MCName.getText().equals("")){
                 if (!WName.getText().equals("")){
-                    tabPane.getSelectionModel().select(3);
+                    switchtoTabPane4();
                     initialize();
                     controlPressed();
                 }
@@ -169,7 +199,7 @@ public class Controller implements Initializable {
             if (!MCName.getText().equals("")){
                 if (!WName.getText().equals("")){
                     if (!C1Name.getText().equals("")){
-                        tabPane.getSelectionModel().select(3);
+                        switchtoTabPane4();
                         initialize();
                         controlPressed();
                     }
@@ -181,7 +211,7 @@ public class Controller implements Initializable {
                 if (!WName.getText().equals("")){
                     if (!C1Name.getText().equals("")){
                         if (!C2Name.getText().equals("")){
-                            tabPane.getSelectionModel().select(3);
+                            switchtoTabPane4();
                             initialize();
                             controlPressed();
                         }
@@ -229,7 +259,7 @@ public class Controller implements Initializable {
 
 
     //Animation Code
-    //Tab Pane (1)
+    //Tab Pane (3)
     private int BACKGROUND_WIDTH = 750;
     private ParallelTransition parallelTransition;
     @FXML
@@ -276,6 +306,64 @@ public class Controller implements Initializable {
         }
     }
     //This code will pause and start the looping animation of my code
+
+
+
+
+    //Tabpane (4)
+    @FXML
+    private void foodDescription(){
+        shopDescription.clear();
+        shopDescription.setText("This will get you X pounds of food. Each family member will eat 4 pounds of food a day.");
+    }
+    @FXML
+    private void oxDescription(){
+        shopDescription.clear();
+        shopDescription.setText("Ox is what is pulling your wagon to the Oregon Trail. Each ox (up to 4) will increase your travel speed. It's recommended to have around 3-5 ox in case of any injuries.");
+    }
+    @FXML
+    private void bulletDescription(){
+        shopDescription.clear();
+        shopDescription.setText("Bullets are used when hunting for more food. Cheap and very useful as shops become less frequent further along the trail.");
+    }
+    @FXML
+    private void wheelDescription(){
+        shopDescription.clear();
+        shopDescription.setText("It's always recommended to carry extra wheel in case they get damaged during crossing a river or any other unforeseen events.");
+    }
+    @FXML
+    private void clearShopDescription(){
+        shopDescription.clear();
+        shopDescription.setText("Welcome! Hover over an icon and I'll tell you its description.");
+    }
+    @FXML
+    private void foodConfirm(){
+
+    }
+    @FXML
+    private void oxConfirm(){
+
+    }
+    @FXML
+    private void bulletConfirm(){
+
+    }
+    @FXML
+    private void wheelConfirm(){
+
+    }
+
+    private void switchtoTabPane4(){
+        tabPane.getSelectionModel().select(4);
+        cashOwned.setText("Cash Owned: " + Cash);
+        bulletsOwned.setText("Bullets Owned " + Bullets);
+        foodOwned.setText("Food Owned: " + Food);
+        oxOwned.setText("Ox Owned: " + Ox);
+        wheelsOwned.setText("Spare Wheels Owned: " + SpareWheels);
+        //This is necessary to update all of the information as the tabpane is switched to the shop
+    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
