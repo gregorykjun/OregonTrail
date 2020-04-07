@@ -17,6 +17,8 @@ import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -75,7 +77,9 @@ public class Controller implements Initializable {
     @FXML
     private TextArea shopDescription;
     @FXML
-    private TextField  foodPriceTF, oxPriceTF, bulletPriceTF, wheelPriceTF;
+    private TextField foodPriceTF, oxPriceTF, bulletPriceTF, wheelPriceTF;
+    private String numberFoodtoBuy = "0", numberOxtoBuy= "0", numberBullettoBuy= "0", numberWheeltoBuy= "0";
+
 
     @FXML
     private Button startMenuBtn;
@@ -166,7 +170,7 @@ public class Controller implements Initializable {
     private void confirmSelectionCharacter(){
         if (EasySelected){
             Easy = true;
-            Cash = 7500;
+            Cash = 4500;
             Ox = 2;
             Food = 50;
             Bullets = 10;
@@ -175,7 +179,7 @@ public class Controller implements Initializable {
         }
         else if (NormalSelected){
             Normal = true;
-            Cash = 5000;
+            Cash = 4000;
             Ox = 0;
             Food = 30;
             Bullets = 15;
@@ -200,7 +204,6 @@ public class Controller implements Initializable {
         if (Easy){
             if (!MCName.getText().equals("")){
                 if (!WName.getText().equals("")){
-                    foodPriceTF.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
 
                     switchtoTabPane4();
                     initialize();
@@ -354,30 +357,132 @@ public class Controller implements Initializable {
         shopDescription.setText("Welcome! Hover over an icon and I'll tell you its description.");
         //Clears all description
     }
+    @FXML
+    private void foodBought(InputEvent event){
+        if (foodPriceTF.getText().length()>0){
+            numberFoodtoBuy = foodPriceTF.getText();
+            boolean checkforNonNumbers =true;
+            for (int i =0; i < foodPriceTF.getText().length(); i ++){
+                if (foodPriceTF.getText().charAt(i) > 57 || foodPriceTF.getText().charAt(i) < 48){
+                    checkforNonNumbers=false;
+                }
+            }
+            if (checkforNonNumbers){
+                foodCostlbl.setText("$" + (Integer.parseInt(numberFoodtoBuy)*foodPrice));
+            }
+            else {
+                foodCostlbl.setText("Error.");
+            }
+        }
+        //This function helps the UI with only allowing numbers and showing the price of the items.
+        //This idea is from my stock project.
+    }
 
     @FXML
-    private void foodBought(){
+    private void oxBought(InputEvent event){
+        if (oxPriceTF.getText().length()>0){
+            numberOxtoBuy = oxPriceTF.getText();
+            boolean checkforNonNumbers =true;
+            for (int i =0; i < oxPriceTF.getText().length(); i ++){
+                if (oxPriceTF.getText().charAt(i) > 57 || oxPriceTF.getText().charAt(i) < 48){
+                    checkforNonNumbers=false;
+                }
+            }
+            if (checkforNonNumbers){
+                oxCostlbl.setText("$" + (Integer.parseInt(numberOxtoBuy)*oxPrice));
+            }
+            else {
+                oxCostlbl.setText("Error.");
+            }
+        }
+        //This function helps the UI with only allowing numbers and showing the price of the items.
+    }
+    @FXML
+    private void bulletBought(InputEvent event){
+        if (bulletPriceTF.getText().length()>0){
+            numberBullettoBuy = bulletPriceTF.getText();
+            boolean checkforNonNumbers =true;
+            for (int i =0; i < bulletPriceTF.getText().length(); i ++){
+                if (bulletPriceTF.getText().charAt(i) > 57 || bulletPriceTF.getText().charAt(i) < 48){
+                    checkforNonNumbers=false;
+                }
+            }
+            if (checkforNonNumbers){
+                bulletCostlbl.setText("$" + (Integer.parseInt(numberBullettoBuy)*bulletPrice));
+            }
+            else {
+                bulletCostlbl.setText("Error.");
+            }
+        }
+        //This function helps the UI with only allowing numbers and showing the price of the items.
+    }
 
+    @FXML
+    private void wheelBought(InputEvent event){
+        if (wheelPriceTF.getText().length()>0){
+            numberWheeltoBuy = wheelPriceTF.getText();
+            boolean checkforNonNumbers =true;
+            for (int i =0; i < wheelPriceTF.getText().length(); i ++){
+                if (wheelPriceTF.getText().charAt(i) > 57 || wheelPriceTF.getText().charAt(i) < 48){
+                    checkforNonNumbers=false;
+                }
+            }
+            if (checkforNonNumbers){
+                wheelCostlbl.setText("$" + (Integer.parseInt(numberWheeltoBuy)*wheelPrice));
+            }
+            else {
+                wheelCostlbl.setText("Error.");
+            }
+        }
+        //This function helps the UI with only allowing numbers and showing the price of the items.
     }
 
     @FXML
     private void foodConfirm(){
-
+        if (Cash - (Integer.parseInt(numberFoodtoBuy)*foodPrice) > 0){
+            Food = Food + Integer.parseInt(numberFoodtoBuy);
+            Cash = Cash - (Integer.parseInt(numberFoodtoBuy)*foodPrice);
+            foodPriceTF.clear();
+            numberFoodtoBuy = "0";
+            foodCostlbl.setText("$0");
+            switchtoTabPane4();
+        }
         //purchases the item
     }
     @FXML
     private void oxConfirm(){
-
+        if (Cash - (Integer.parseInt(numberOxtoBuy)*oxPrice) > 0){
+            Ox = Ox + Integer.parseInt(numberOxtoBuy);
+            Cash = Cash - (Integer.parseInt(numberOxtoBuy)*oxPrice);
+            oxPriceTF.clear();
+            numberOxtoBuy= "0";
+            oxCostlbl.setText("$0");
+            switchtoTabPane4();
+        }
         //purchases the item
     }
     @FXML
     private void bulletConfirm(){
-
+        if (Cash - (Integer.parseInt(numberBullettoBuy)*bulletPrice) > 0){
+            Bullets = Bullets + Integer.parseInt(numberBullettoBuy);
+            Cash = Cash - (Integer.parseInt(numberBullettoBuy)*bulletPrice);
+            bulletPriceTF.clear();
+            numberBullettoBuy= "0";
+            bulletCostlbl.setText("$0");
+            switchtoTabPane4();
+        }
         //purchases the item
     }
     @FXML
     private void wheelConfirm(){
-
+        if (Cash - (Integer.parseInt(numberWheeltoBuy)*wheelPrice) > 0){
+            SpareWheels =  SpareWheels + Integer.parseInt(numberWheeltoBuy);
+            Cash = Cash - (Integer.parseInt(numberWheeltoBuy)*wheelPrice);
+            wheelPriceTF.clear();
+            numberWheeltoBuy= "0";
+            wheelCostlbl.setText("$0");
+            switchtoTabPane4();
+        }
         //purchases the item
     }
 
@@ -418,6 +523,12 @@ public class Controller implements Initializable {
         bulletPricelbl.setText("$" +bulletPrice);
         wheelPricelbl.setText("$" + wheelPrice);
         //This is necessary to update all of the information as the tabpane is switched to the shop
+    }
+    @FXML
+    private void exitStore(){
+        controlPressed();
+        tabPane.getSelectionModel().select(3);
+        //This returns to the oregon trail animation
     }
 
 

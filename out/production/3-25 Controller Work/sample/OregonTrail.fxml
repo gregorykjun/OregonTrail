@@ -241,10 +241,10 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="foodPriceTF" layoutX="181.0" layoutY="208.0" onInputMethodTextChanged="#foodBought" prefHeight="22.0" prefWidth="48.0" />
-                        <TextField fx:id="oxPriceTF" layoutX="181.0" layoutY="255.0" prefHeight="22.0" prefWidth="48.0" />
-                        <TextField fx:id="bulletPriceTF" layoutX="181.0" layoutY="301.0" prefHeight="22.0" prefWidth="48.0" />
-                        <TextField fx:id="wheelPriceTF" layoutX="181.0" layoutY="349.0" prefHeight="22.0" prefWidth="48.0" />
+                        <TextField fx:id="foodPriceTF" layoutX="181.0" layoutY="208.0" onKeyReleased="#foodBought" prefHeight="22.0" prefWidth="48.0" />
+                        <TextField fx:id="oxPriceTF" layoutX="181.0" layoutY="255.0" onKeyReleased="#oxBought" prefHeight="22.0" prefWidth="48.0" />
+                        <TextField fx:id="bulletPriceTF" layoutX="181.0" layoutY="301.0" onKeyReleased="#bulletBought" prefHeight="22.0" prefWidth="48.0" />
+                        <TextField fx:id="wheelPriceTF" layoutX="181.0" layoutY="349.0" onKeyReleased="#wheelBought" prefHeight="22.0" prefWidth="48.0" />
                         <Button layoutX="308.0" layoutY="208.0" mnemonicParsing="false" onAction="#foodConfirm" text="Confirm">
                            <font>
                               <Font name="Courier New" size="12.0" />
@@ -269,6 +269,16 @@
                               <Font name="Courier New" size="12.0" />
                            </font>
                         </Button>
+                        <ImageView fitHeight="87.0" fitWidth="86.0" layoutX="661.0" layoutY="9.0" onMouseClicked="#exitStore" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/backButton.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="666.0" layoutY="95.0" text="Exit Store" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font>
+                        </Label>
                             </children></AnchorPane>
                     </content>
                 </Tab>

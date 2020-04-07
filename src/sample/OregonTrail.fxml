@@ -20,7 +20,7 @@
     <children>
         <TabPane fx:id="tabPane" layoutY="-35.0" prefHeight="438.0" prefWidth="750.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab text="Untitled Tab 1">
+                <Tab text="Starting Screen">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -34,7 +34,7 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Untitled Tab 2">
+                <Tab text="Select Characters">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -70,7 +70,7 @@
                             </children></AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Untitled Tab 3">
+                <Tab text="Name Characters">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -123,7 +123,7 @@
                     </content>
                 </Tab>
 
-                <Tab text="Untitled Tab 4">
+                <Tab text="Animation Background">
                     <content>
                         <StackPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -151,7 +151,7 @@
 
                     </content>
                 </Tab>
-                <Tab text="Untitled Tab 5">
+                <Tab text="Store">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -185,11 +185,6 @@
                               <Font name="Courier New" size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="18.0" layoutY="205.0" onMouseEntered="#foodDescription" onMouseExited="#clearShopDescription" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/chicken.png" />
-                           </image>
-                        </ImageView>
                         <ImageView fitHeight="123.0" fitWidth="215.0" layoutX="502.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/shopkeeper.png" />
@@ -201,21 +196,6 @@
                               <Font name="Courier New" size="15.0" />
                            </font>
                         </TextArea>
-                        <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="18.0" layoutY="251.0" onMouseEntered="#oxDescription" onMouseExited="#clearShopDescription" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/ox.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="18.0" layoutY="297.0" onMouseEntered="#bulletDescription" onMouseExited="#clearShopDescription" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/bullet.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="18.0" layoutY="346.0" onMouseEntered="#wheelDescription" onMouseExited="#clearShopDescription" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/wheels.png" />
-                           </image>
-                        </ImageView>
                         <Label fx:id="foodPricelbl" layoutX="59.0" layoutY="214.0" text="Food_Price" textFill="WHITE">
                            <font>
                               <Font name="Courier New" size="14.0" />
@@ -241,10 +221,10 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="foodPriceTF" layoutX="181.0" layoutY="208.0" onInputMethodTextChanged="#foodBought" prefHeight="22.0" prefWidth="48.0" />
-                        <TextField fx:id="oxPriceTF" layoutX="181.0" layoutY="255.0" prefHeight="22.0" prefWidth="48.0" />
-                        <TextField fx:id="bulletPriceTF" layoutX="181.0" layoutY="301.0" prefHeight="22.0" prefWidth="48.0" />
-                        <TextField fx:id="wheelPriceTF" layoutX="181.0" layoutY="349.0" prefHeight="22.0" prefWidth="48.0" />
+                        <TextField fx:id="foodPriceTF" layoutX="181.0" layoutY="208.0" onKeyReleased="#foodBought" prefHeight="22.0" prefWidth="48.0" />
+                        <TextField fx:id="oxPriceTF" layoutX="181.0" layoutY="255.0" onKeyReleased="#oxBought" prefHeight="22.0" prefWidth="48.0" />
+                        <TextField fx:id="bulletPriceTF" layoutX="181.0" layoutY="301.0" onKeyReleased="#bulletBought" prefHeight="22.0" prefWidth="48.0" />
+                        <TextField fx:id="wheelPriceTF" layoutX="181.0" layoutY="349.0" onKeyReleased="#wheelBought" prefHeight="22.0" prefWidth="48.0" />
                         <Button layoutX="308.0" layoutY="208.0" mnemonicParsing="false" onAction="#foodConfirm" text="Confirm">
                            <font>
                               <Font name="Courier New" size="12.0" />
@@ -269,12 +249,69 @@
                               <Font name="Courier New" size="12.0" />
                            </font>
                         </Button>
+                        <ImageView fitHeight="87.0" fitWidth="86.0" layoutX="661.0" layoutY="9.0" onMouseClicked="#exitStore" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/backButton.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="666.0" layoutY="95.0" text="Exit Store" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font>
+                        </Label>
                             </children></AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Untitled Tab 6">
+                <Tab text="Items Screen">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="20.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/chicken.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="20.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/ox.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="20.0" layoutY="170.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/bullet.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="20.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/wheels.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="30.0" layoutY="28.0" text="Items" textFill="#fffdfd">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="60.0" layoutY="71.0" text="x 10" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="60.0" layoutY="123.0" text="x 10" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="55.0" layoutY="178.0" text="x 10" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="60.0" layoutY="237.0" text="x 10" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
                     </content>
                 </Tab>
                 <Tab text="Untitled Tab 7">
