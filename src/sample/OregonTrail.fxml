@@ -249,7 +249,7 @@
                               <Font name="Courier New" size="12.0" />
                            </font>
                         </Button>
-                        <ImageView fitHeight="87.0" fitWidth="86.0" layoutX="661.0" layoutY="9.0" onMouseClicked="#exitStore" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="87.0" fitWidth="86.0" layoutX="661.0" layoutY="9.0" onMouseClicked="#returnToGame" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/backButton.png" />
                            </image>
@@ -291,30 +291,67 @@
                               <Font name="Courier New" size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="60.0" layoutY="71.0" text="x 10" textFill="WHITE">
+                        <Label fx:id="itemsFoodOwned" layoutX="60.0" layoutY="71.0" text="x 10" textFill="WHITE">
                            <font>
                               <Font name="Courier New" size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="60.0" layoutY="123.0" text="x 10" textFill="WHITE">
+                        <Label fx:id="itemsOxOwned" layoutX="60.0" layoutY="123.0" text="x 10" textFill="WHITE">
                            <font>
                               <Font name="Courier New" size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="55.0" layoutY="178.0" text="x 10" textFill="WHITE">
+                        <Label fx:id="itemsBulletOwned" layoutX="55.0" layoutY="178.0" text="x 10" textFill="WHITE">
                            <font>
                               <Font name="Courier New" size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="60.0" layoutY="237.0" text="x 10" textFill="WHITE">
+                        <Label fx:id="itemsWheelOwned" layoutX="60.0" layoutY="237.0" text="x 10" textFill="WHITE">
                            <font>
                               <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="105.0" layoutX="326.0" layoutY="90.0" stroke="WHITE" strokeType="OUTSIDE" width="98.0" />
+                        <ImageView fx:id="itemsCharacterImage" fitHeight="105.0" fitWidth="98.0" layoutX="326.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true" />
+                        <TextArea fx:id="itemsCharacterDescription" layoutX="179.0" layoutY="206.0" prefHeight="192.0" prefWidth="393.0" style="-fx-control-inner-background: black; -fx-text-inner-color: white;" wrapText="true">
+                           <font>
+                              <Font name="Courier New" size="15.0" />
+                           </font>
+                        </TextArea>
+                        <Label fx:id="itemsDay" layoutX="11.0" layoutY="378.0" text="Day X" textFill="WHITE" underline="true">
+                           <font>
+                              <Font name="Courier New Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="87.0" fitWidth="86.0" layoutX="653.0" layoutY="14.0" onMouseClicked="#returnToGame" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/backButton.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="644.0" layoutY="101.0" text="Return to Game" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
                            </font>
                         </Label>
                      </children></AnchorPane>
                     </content>
                 </Tab>
                 <Tab text="Untitled Tab 7">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+                <Tab text="Untitled Tab 8">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+                <Tab text="Untitled Tab 9">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+                <Tab text="Untitled Tab 10">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>

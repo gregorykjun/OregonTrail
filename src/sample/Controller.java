@@ -80,6 +80,14 @@ public class Controller implements Initializable {
     private TextField foodPriceTF, oxPriceTF, bulletPriceTF, wheelPriceTF;
     private String numberFoodtoBuy = "0", numberOxtoBuy= "0", numberBullettoBuy= "0", numberWheeltoBuy= "0";
 
+    //Tabpane 5
+    @FXML
+    private ImageView itemsCharacterImage;
+    @FXML
+    private TextArea itemsCharacterDescription;
+    @FXML
+    private Label itemsFoodOwned, itemsOxOwned, itemsBulletOwned, itemsWheelOwned, itemsDay;
+
 
     @FXML
     private Button startMenuBtn;
@@ -253,8 +261,9 @@ public class Controller implements Initializable {
         //This sets up tabpane 2 in order to make the player fill out the only tabs needed.
     }
     @FXML
-    private void handleItems() throws IOException {
-
+    private void handleItems() {
+        controlPressed();
+        switchtoTabPane5();
         //Switches to items animation
     }
     public void start(){
@@ -525,13 +534,33 @@ public class Controller implements Initializable {
         //This is necessary to update all of the information as the tabpane is switched to the shop
     }
     @FXML
-    private void exitStore(){
+    private void returnToGame(){
         controlPressed();
         tabPane.getSelectionModel().select(3);
         //This returns to the oregon trail animation
     }
 
 
+
+    private void switchtoTabPane5(){
+        tabPane.getSelectionModel().select(5);
+        itemsFoodOwned.setText("x "+ Food);
+        itemsOxOwned.setText("x " + Ox);
+        itemsBulletOwned.setText("x " + Bullets);
+        itemsWheelOwned.setText("x " + SpareWheels);
+        itemsDay.setText("Day " + Day);
+        if (Easy){
+            itemsCharacterImage.setImage(new Image("resources/ForwardEasyCharacter.png"));
+        }
+        else if (Normal){
+            itemsCharacterImage.setImage(new Image("resources/ForwardNormalCharacter.png"));
+        }
+        else {
+            itemsCharacterImage.setImage(new Image("resources/ForwardHardCharacter.png"));
+        }
+        //To set up : Health description of family
+        //This sets up the items tab
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
