@@ -144,6 +144,31 @@
                                                 <Image url="@../resources/Backpack.png" />
                                             </image>
                                         </ImageView>
+                              <Label fx:id="eventMiles" layoutX="14.0" layoutY="345.0" text="Event Miles Till:">
+                                 <font>
+                                    <Font name="Courier New Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="animationDays" layoutX="14.0" layoutY="14.0" text="Day X" underline="true">
+                                 <font>
+                                    <Font name="Courier New Bold" size="17.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="milesTraveled" layoutX="14.0" layoutY="371.0" text="Miles Traveled:">
+                                 <font>
+                                    <Font name="Courier New Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="date" layoutX="621.0" layoutY="380.0" text="Date:">
+                                 <font>
+                                    <Font name="Courier New Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="306.0" layoutY="369.0" mnemonicParsing="false" onAction="#performanAction" text="Perform an Action">
+                                 <font>
+                                    <Font name="Courier New" size="12.0" />
+                                 </font>
+                              </Button>
                                     </children>
                                 </Pane>
                             </children>
@@ -259,6 +284,26 @@
                               <Font name="Courier New" size="12.0" />
                            </font>
                         </Label>
+                        <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="18.0" layoutY="202.0" onMouseEntered="#foodDescription" onMouseExited="#clearShopDescription" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/chicken.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="18.0" layoutY="252.0" onMouseEntered="#oxDescription" onMouseExited="#clearShopDescription" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/ox.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="18.0" layoutY="298.0" onMouseEntered="#bulletDescription" onMouseExited="#clearShopDescription" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/bullet.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="35.0" fitWidth="36.0" layoutX="18.0" layoutY="347.0" onMouseEntered="#wheelDescription" onMouseExited="#clearShopDescription" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/wheels.png" />
+                           </image>
+                        </ImageView>
                             </children></AnchorPane>
                     </content>
                 </Tab>

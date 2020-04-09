@@ -31,7 +31,8 @@ import javafx.util.converter.IntegerStringConverter;
 public class Controller implements Initializable {
     private Image backpack = new Image("resources/Backpack.png");
 
-
+    //Minor Events - Trading, Lose trail, Weather event, Illness, Wheel broke
+    //Major events - Visiting a town, River, Hunting
     private double Cash;
     private int Food;
     private int Ox;
@@ -49,7 +50,6 @@ public class Controller implements Initializable {
     private TabPane tabPane;
     private String MainCharacterName, WifeName, Child1Name, Child2Name;
     private DropShadow borderSelect = new DropShadow();
-
 
     @FXML
     private ImageView easyModeImage, normalModeImage, hardModeImage;
@@ -71,6 +71,22 @@ public class Controller implements Initializable {
     @FXML
     private Button startGameBtn;
 
+    //Tabpane 3
+    @FXML
+    private Label animationDays;
+    private boolean animationRunning;
+    private int metersLeft;
+    private boolean eventPicked;
+    private int timePerDay = 3;
+    private int time;
+    private int distanceTraveled=0;
+    private int distanceTillEvent;
+    @FXML
+            private Label eventMiles, milesTraveled, date;
+    int day;
+    int month;
+    int year = 1848;
+
     //Tab pane 4
     @FXML
     private Label cashOwned, foodOwned, oxOwned, bulletsOwned, wheelsOwned, foodPricelbl, oxPricelbl, bulletPricelbl, wheelPricelbl, foodCostlbl, oxCostlbl, bulletCostlbl, wheelCostlbl;
@@ -87,7 +103,6 @@ public class Controller implements Initializable {
     private TextArea itemsCharacterDescription;
     @FXML
     private Label itemsFoodOwned, itemsOxOwned, itemsBulletOwned, itemsWheelOwned, itemsDay;
-
 
     @FXML
     private Button startMenuBtn;
@@ -212,7 +227,8 @@ public class Controller implements Initializable {
         if (Easy){
             if (!MCName.getText().equals("")){
                 if (!WName.getText().equals("")){
-
+                    day = 1;
+                    month = 3;
                     switchtoTabPane4();
                     initialize();
                 }
@@ -222,6 +238,8 @@ public class Controller implements Initializable {
             if (!MCName.getText().equals("")){
                 if (!WName.getText().equals("")){
                     if (!C1Name.getText().equals("")){
+                        day = 31;
+                        month = 3;
                         switchtoTabPane4();
                         initialize();
                     }
@@ -233,6 +251,8 @@ public class Controller implements Initializable {
                 if (!WName.getText().equals("")){
                     if (!C1Name.getText().equals("")){
                         if (!C2Name.getText().equals("")){
+                            day = 30;
+                            month = 4;
                             switchtoTabPane4();
                             initialize();
                         }
@@ -240,6 +260,8 @@ public class Controller implements Initializable {
                 }
             }
         }
+        start();
+        newMajorEvent();
         //This checks to make sure the player has filled out something for the text field and proceeds onto the next screen
     }
     private void checkMode(){
@@ -266,17 +288,7 @@ public class Controller implements Initializable {
         switchtoTabPane5();
         //Switches to items animation
     }
-    public void start(){
-        new AnimationTimer(){
-            @Override
-            public void handle(long now) {
 
-//                counter.setText((now/1000000000)-x + "");
-//                countdown.setText(y - ((now/1000000000)-x) + "");
-
-            }
-        }.start();
-    }
 
 
 
@@ -311,8 +323,8 @@ public class Controller implements Initializable {
         });
     }
     private void startAnimation() {
-
         parallelTransition.play();
+        time = (int) (System.nanoTime()/1000000000);
     }
 
     private void pauseAnimation() {
@@ -322,12 +334,133 @@ public class Controller implements Initializable {
     private void controlPressed() {
         if( parallelTransition.getStatus() == Animation.Status.RUNNING ) {
             pauseAnimation();
+            animationRunning = false;
         } else {
             startAnimation();
+            animationRunning = true;
         }
     }
     //This code will pause and start the looping animation of my code
+    public void start(){
+        new AnimationTimer(){
+            @Override
+            public void handle(long now) {
+                if (animationRunning){
+                    int y = (int)(now/1000000000);
+                    if (y- time >=2){
+                        //New day
+                        newDay();
+                        time = (int) (System.nanoTime()/1000000000);
+                    }
+                }
+                //This is to see if the animation is running and will do a day to day sort of thing.
+            }
+        }.start();
+    }
+    //Once the timer hits 2 seconds, a new day will occur and there will be an event check and changing of the dates.
+    //Weather will also possibly change.
+    private void newDay(){
+        //This will change the food amount, change weather, distance traveled and left till next landmark.
+        if (WheelsInUse == 4){
+            int distance = RandomNumber(20,16);
+            distanceTraveled = distanceTraveled + distance;
+            if (distanceTillEvent - distance>0){
+                distanceTillEvent = distanceTillEvent - distance;
+            }
+            else {
+                tabPane.getSelectionModel().select(6);
+                newMajorEvent();
+                controlPressed();
+                eventPicked = false;
+                //Distance event reached, reset a new event and trigger this one.
+            }
+        }
+        else {
+            int distance = RandomNumber(15,11);
+            distanceTraveled = distanceTraveled + distance;
+            if (distanceTillEvent - distance>0){
+                distanceTillEvent = distanceTillEvent - distance;
+            }
+            else {
+                tabPane.getSelectionModel().select(6);
+                newMajorEvent();
+                controlPressed();
+                eventPicked = false;
+                //Distance event reached, reset a new event and trigger this one.
+            }
+        }
 
+        eventMiles.setText("Distance until event: " + distanceTillEvent + " Miles");
+        milesTraveled.setText("Distance Traveled: " + distanceTraveled + " Miles");
+        changeDoT();
+
+    }
+    @FXML
+    private void performanAction(){
+
+    }
+
+    private void minorEvent(){
+
+        //this is possibly something that can negatively affect the player.
+    }
+    private void newMajorEvent(){
+        distanceTillEvent=100;
+        //This will pick a new event and distance to travel for the player.
+
+    }
+    private int RandomNumber(int high, int low){
+        return (int)(Math.random()*high)+low;
+    }
+
+    private void changeDoT(){
+        day++;
+        if (year%4==0){
+            if (month==2){
+                if (day==30){
+                    month++;
+                    day=1;
+                }
+            }
+            if (month ==4 || month == 6 || month ==9 ||month==11){
+                if (day==31){
+                    month++;
+                    day=1;
+                }
+            }
+            else {
+                if (day==32) {
+                    month++;
+                    day = 1;
+                }
+            }
+        }
+        else{
+            if (month==2){
+                if (day==29){
+                    month++;
+                    day=1;
+                }
+            }
+            if (month ==4 || month == 6 || month ==9 ||month==11){
+                if (day==31){
+                    month++;
+                    day=1;
+                }
+            }
+            else {
+                if (day==32){
+                    month++;
+                    day=1;
+                }
+            }
+        }
+        if (month>12){
+            year++;
+            month=1;
+        }
+        //Small UI thing, shows the date for the player.
+    }
 
 
 
@@ -336,7 +469,6 @@ public class Controller implements Initializable {
     private void foodDescription(){
         shopDescription.clear();
         shopDescription.setText("This will get you X pounds of food. Each family member will eat 4 pounds of food a day.");
-
         //Sets the food description
     }
     @FXML
@@ -344,7 +476,6 @@ public class Controller implements Initializable {
         shopDescription.clear();
         shopDescription.setText("Ox is what is pulling your wagon to the Oregon Trail. Each ox (up to 4) will increase your travel speed. It's recommended to have around 3-5 ox in case of any injuries.");
         //Sets the ox description
-
     }
     @FXML
     private void bulletDescription(){
@@ -539,6 +670,7 @@ public class Controller implements Initializable {
         tabPane.getSelectionModel().select(3);
         //This returns to the oregon trail animation
     }
+
 
 
 
