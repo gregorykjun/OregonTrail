@@ -2,6 +2,7 @@ package sample;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
@@ -28,6 +29,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 
+import javax.swing.*;
+
 public class Controller implements Initializable {
     private Image backpack = new Image("resources/Backpack.png");
 
@@ -41,9 +44,8 @@ public class Controller implements Initializable {
     private int WheelsInUse = 4;
     private int DaysLeft;
     private int Day=0;
-
+    private ArrayList<FamilyMember> family = new ArrayList<>();
     private double foodPrice, oxPrice, bulletPrice, wheelPrice;
-
     //@FXML
     //private Ellipse easyDescription, normalDescription;
     @FXML
@@ -77,10 +79,18 @@ public class Controller implements Initializable {
     private boolean animationRunning;
     private int metersLeft;
     private boolean eventPicked;
-    private int timePerDay = 3;
     private int time;
     private int distanceTraveled=0;
     private int distanceTillEvent;
+    private int milestoWin = 2880;
+    private String majorEvent;
+    private String minorEvent;
+    @FXML
+    private ImageView animationBackpack;
+    @FXML
+    private Button actionBtn, confirmEventBtn;
+    @FXML
+    private TextArea eventTA;
     @FXML
             private Label eventMiles, milesTraveled, date;
     int day;
@@ -229,6 +239,7 @@ public class Controller implements Initializable {
                 if (!WName.getText().equals("")){
                     day = 1;
                     month = 3;
+                    family.add(new FamilyMember(WName.getText()));
                     switchtoTabPane4();
                     initialize();
                 }
@@ -240,6 +251,8 @@ public class Controller implements Initializable {
                     if (!C1Name.getText().equals("")){
                         day = 31;
                         month = 3;
+                        family.add(new FamilyMember(WName.getText()));
+                        family.add(new FamilyMember(C1Name.getText()));
                         switchtoTabPane4();
                         initialize();
                     }
@@ -253,6 +266,9 @@ public class Controller implements Initializable {
                         if (!C2Name.getText().equals("")){
                             day = 30;
                             month = 4;
+                            family.add(new FamilyMember(WName.getText()));
+                            family.add(new FamilyMember(C1Name.getText()));
+                            family.add(new FamilyMember(C2Name.getText()));
                             switchtoTabPane4();
                             initialize();
                         }
@@ -350,6 +366,7 @@ public class Controller implements Initializable {
                     if (y- time >=2){
                         //New day
                         newDay();
+                        changeDoT();
                         time = (int) (System.nanoTime()/1000000000);
                     }
                 }
@@ -360,9 +377,11 @@ public class Controller implements Initializable {
     //Once the timer hits 2 seconds, a new day will occur and there will be an event check and changing of the dates.
     //Weather will also possibly change.
     private void newDay(){
+        Day++;
+        date.setText(month + "/" + day + "/" + year);
         //This will change the food amount, change weather, distance traveled and left till next landmark.
         if (WheelsInUse == 4){
-            int distance = RandomNumber(20,16);
+            int distance = RandomNumber(17,12);
             distanceTraveled = distanceTraveled + distance;
             if (distanceTillEvent - distance>0){
                 distanceTillEvent = distanceTillEvent - distance;
@@ -376,7 +395,7 @@ public class Controller implements Initializable {
             }
         }
         else {
-            int distance = RandomNumber(15,11);
+            int distance = RandomNumber(6,11);
             distanceTraveled = distanceTraveled + distance;
             if (distanceTillEvent - distance>0){
                 distanceTillEvent = distanceTillEvent - distance;
@@ -389,25 +408,414 @@ public class Controller implements Initializable {
                 //Distance event reached, reset a new event and trigger this one.
             }
         }
-
+        animationDays.setText("Day " + Day);
         eventMiles.setText("Distance until event: " + distanceTillEvent + " Miles");
         milesTraveled.setText("Distance Traveled: " + distanceTraveled + " Miles");
         changeDoT();
-
+        minorEvent();
     }
     @FXML
     private void performanAction(){
 
     }
 
-    private void minorEvent(){
-
-        //this is possibly something that can negatively affect the player.
+private void minorEvent(){
+    System.out.println("works");
+    if (Easy){
+        if (Math.random() < (.3 + (Day*.01))){
+            System.out.println("yes");
+            double random = Math.random();
+            boolean noillness = false;
+            for (FamilyMember a : family){
+                if (!a.getSick()) {
+                    noillness = true;
+                    break;
+                }
+            }
+            if (noillness){
+                if (family.size()>0){
+                    if (random<.4){
+                        int familySize = family.size();
+                        int randomNumber = RandomNumber(familySize , 1);
+                        if (!family.get(randomNumber-1).getSick()){
+                            int illnessChoose = RandomNumber(5,1);
+                            if (illnessChoose == 1){
+                                family.get(randomNumber-1).changeIllness("Cholera");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Cholera.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }
+                            else if (illnessChoose == 2){
+                                family.get(randomNumber-1).changeIllness("Diphtheria");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Diphtheria.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }else if (illnessChoose == 3){
+                                family.get(randomNumber-1).changeIllness("Dysentery");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Dysentery.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }else if (illnessChoose == 4){
+                                family.get(randomNumber-1).changeIllness("Measles");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Measles.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }else {
+                                family.get(randomNumber-1).changeIllness("Typhoid Fever");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Typhoid Fever.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                int randomNumber = RandomNumber(4, 1);
+                if (randomNumber == 1){
+                    eventTA.setVisible(true);
+                    int daysLost = RandomNumber(5,3);
+                    eventTA.setText("Massive thunderstorm. Lose " + daysLost +" days.");
+                    Day = Day + daysLost;
+                    while (daysLost>0){
+                        changeDoT();
+                        daysLost--;
+                    }
+                    confirmEventBtn.setVisible(true);
+                    animationBackpack.setVisible(false);
+                    actionBtn.setVisible(false);
+                }
+                if (randomNumber == 2){
+                    eventTA.setVisible(true);
+                    int daysLost = RandomNumber(5,3);
+                    eventTA.setText("Lose Trail. Lose " + daysLost +" days.");
+                    Day = Day + daysLost;
+                    while (daysLost>0){
+                        changeDoT();
+                        daysLost--;
+                    }
+                    confirmEventBtn.setVisible(true);
+                    animationBackpack.setVisible(false);
+                    actionBtn.setVisible(false);
+                }
+                if (randomNumber == 3){
+                    if (SpareWheels>0){
+                        SpareWheels--;
+                        eventTA.setText("Break a wheel. " + SpareWheels + " spare wheels left.");
+                    }
+                    else {
+                        WheelsInUse--;
+                        eventTA.setText("Break a wheel. You only have " + WheelsInUse + " wheels in use.");
+                    }
+                    eventTA.setVisible(true);
+                    confirmEventBtn.setVisible(true);
+                    animationBackpack.setVisible(false);
+                    actionBtn.setVisible(false);
+                }
+                if (randomNumber == 4){
+                    eventTA.setText("Ox has died. You have " + Ox + " ox left.");
+                    eventTA.setVisible(true);
+                    confirmEventBtn.setVisible(true);
+                    animationBackpack.setVisible(false);
+                    actionBtn.setVisible(false);
+                }
+                controlPressed();
+            }
+            //Rain , Cholera , Diphtheria, Dysentery, Measles, Typhoid Fever, Lose trail - lose X days, Lose a wheel, Ox has died
+            //Find gold, Gain food, Gain a wheel, Gain bullets
+            //The chance that a negative event will occur is 30% and will increase by 1% every 10 days.
+        }
+        else {
+            double random = Math.random();
+            if (random<.4){
+                //controlPressed();
+                //positive event
+            }
+        }
     }
-    private void newMajorEvent(){
-        distanceTillEvent=100;
-        //This will pick a new event and distance to travel for the player.
+    else if (Normal){
+        if (Math.random() < (.4 + (Day*.01))){
+            double random = Math.random();
+            boolean noillness = false;
+            for (FamilyMember a : family){
+                if (!a.getSick()) {
+                    noillness = true;
+                    break;
+                }
+            }
+            if (noillness){
+                if (family.size()>0){
+                    if (random<.4){
+                        int familySize = family.size();
+                        int randomNumber = RandomNumber(familySize,1 );
+                        if (!family.get(randomNumber-1).getSick()){
+                            int illnessChoose = RandomNumber(5,1);
+                            if (illnessChoose == 1){
+                                family.get(randomNumber-1).changeIllness("Cholera");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Cholera.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }
+                            else if (illnessChoose == 2){
+                                family.get(randomNumber-1).changeIllness("Diphtheria");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Diphtheria.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }else if (illnessChoose == 3){
+                                family.get(randomNumber-1).changeIllness("Dysentery");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Dysentery.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }else if (illnessChoose == 4){
+                                family.get(randomNumber-1).changeIllness("Measles");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Measles.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }else {
+                                family.get(randomNumber-1).changeIllness("Typhoid Fever");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Typhoid Fever.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                int randomNumber = RandomNumber(4, 1);
+                if (randomNumber == 1){
+                    eventTA.setVisible(true);
+                    int daysLost = RandomNumber(5,3);
+                    eventTA.setText("Massive thunderstorm. Lose " + daysLost +" days.");
+                    Day = Day + daysLost;
+                    while (daysLost>0){
+                        changeDoT();
+                        daysLost--;
+                    }
+                    confirmEventBtn.setVisible(true);
+                    animationBackpack.setVisible(false);
+                    actionBtn.setVisible(false);
+                }
+                if (randomNumber == 2){
+                    eventTA.setVisible(true);
+                    int daysLost = RandomNumber(5,3);
+                    eventTA.setText("Lose Trail. Lose " + daysLost +" days.");
+                    Day = Day + daysLost;
+                    while (daysLost>0){
+                        changeDoT();
+                        daysLost--;
+                    }
+                    confirmEventBtn.setVisible(true);
+                    animationBackpack.setVisible(false);
+                    actionBtn.setVisible(false);
+                }
+                if (randomNumber == 3){
+                    if (SpareWheels>0){
+                        SpareWheels--;
+                        eventTA.setText("Break a wheel. " + SpareWheels + " spare wheels left.");
+                    }
+                    else {
+                        WheelsInUse--;
+                        eventTA.setText("Break a wheel. You only have " + WheelsInUse + " wheels in use.");
+                    }
+                    eventTA.setVisible(true);
+                    confirmEventBtn.setVisible(true);
+                    animationBackpack.setVisible(false);
+                    actionBtn.setVisible(false);
+                }
+                if (randomNumber == 4){
+                    eventTA.setText("Ox has died. You have " + Ox + " ox left.");
+                    eventTA.setVisible(true);
+                    confirmEventBtn.setVisible(true);
+                    animationBackpack.setVisible(false);
+                    actionBtn.setVisible(false);
+                }
+                controlPressed();
 
+            }
+            //Rain , Cholera , Diphtheria, Dysentery, Measles, Typhoid Fever, Lose trail - lose X days, Lose a wheel, Ox has died
+            //Find gold, Gain food, Gain a wheel, Gain bullets
+            //The chance that a negative event will occur is 40% and will increase by 1% every 10 days.
+        }
+    }
+    else {
+        if (Math.random() < (.5 + (Day*.01))){
+            double random = Math.random();
+            boolean noillness = false;
+            for (FamilyMember a : family){
+                if (!a.getSick()) {
+                    noillness = true;
+                    break;
+                }
+            }
+            if (noillness){
+                if (family.size()>0){
+                    if (random<.4){
+                        int familySize = family.size();
+                        int randomNumber = RandomNumber(familySize,1 );
+                        if (!family.get(randomNumber-1).getSick()){
+                            int illnessChoose = RandomNumber(5,1);
+                            if (illnessChoose == 1){
+                                family.get(randomNumber-1).changeIllness("Cholera");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Cholera.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }
+                            else if (illnessChoose == 2){
+                                family.get(randomNumber-1).changeIllness("Diphtheria");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Diphtheria.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }else if (illnessChoose == 3){
+                                family.get(randomNumber-1).changeIllness("Dysentery");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Dysentery.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }else if (illnessChoose == 4){
+                                family.get(randomNumber-1).changeIllness("Measles");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Measles.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }else {
+                                family.get(randomNumber-1).changeIllness("Typhoid Fever");
+                                eventTA.setVisible(true);
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has Typhoid Fever.");
+                                confirmEventBtn.setVisible(true);
+                                animationBackpack.setVisible(false);
+                                actionBtn.setVisible(false);
+                                controlPressed();
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                int randomNumber = RandomNumber(4, 1);
+                if (randomNumber == 1){
+                    eventTA.setVisible(true);
+                    int daysLost = RandomNumber(5,3);
+                    eventTA.setText("Massive thunderstorm. Lose " + daysLost +" days.");
+                    Day = Day + daysLost;
+                    while (daysLost>0){
+                        changeDoT();
+                        daysLost--;
+                    }
+                    confirmEventBtn.setVisible(true);
+                    animationBackpack.setVisible(false);
+                    actionBtn.setVisible(false);
+                }
+                if (randomNumber == 2){
+                    eventTA.setVisible(true);
+                    int daysLost = RandomNumber(5,3);
+                    eventTA.setText("Lose Trail. Lose " + daysLost +" days.");
+                    Day = Day + daysLost;
+                    while (daysLost>0){
+                        changeDoT();
+                        daysLost--;
+                    }
+                    confirmEventBtn.setVisible(true);
+                    animationBackpack.setVisible(false);
+                    actionBtn.setVisible(false);
+                }
+                if (randomNumber == 3){
+                    if (SpareWheels>0){
+                        SpareWheels--;
+                        eventTA.setText("Break a wheel. " + SpareWheels + " spare wheels left.");
+                    }
+                    else {
+                        WheelsInUse--;
+                        eventTA.setText("Break a wheel. You only have " + WheelsInUse + " wheels in use.");
+                    }
+                    eventTA.setVisible(true);
+                    confirmEventBtn.setVisible(true);
+                    animationBackpack.setVisible(false);
+                    actionBtn.setVisible(false);
+                }
+                if (randomNumber == 4){
+                    eventTA.setText("Ox has died. You have " + Ox + " ox left.");
+                    eventTA.setVisible(true);
+                    confirmEventBtn.setVisible(true);
+                    animationBackpack.setVisible(false);
+                    actionBtn.setVisible(false);
+                }
+                controlPressed();
+
+            }
+            //Rain , Cholera , Diphtheria, Dysentery, Measles, Typhoid Fever, Lose trail - lose X days, Lose a wheel, Ox has died
+            //Find gold, Gain food, Gain a wheel, Gain bullets
+            //The chance that a negative event will occur is 50% and will increase by 1% every 10 days.
+        }
+    }
+    //this is possibly something that can negatively affect the player.
+    //Rain , Cholera , Diphtheria, Dysentery, Measles, Typhoid Fever, Lose trail - lose X days, Lose a wheel, Ox has died
+    //Find gold, Gain food, Gain a wheel, Gain bullets
+}
+@FXML
+private void confirmEvent(){
+        eventTA.setVisible(false);
+        confirmEventBtn.setVisible(false);
+        actionBtn.setVisible(true);
+        animationBackpack.setVisible(true);
+        controlPressed();
+}
+    private void newMajorEvent(){
+        distanceTillEvent= RandomNumber(150, 90);
+        double eventcast = Math.random();
+        if (eventcast <.2){
+            majorEvent = "Shop";
+            //Get more supplies
+        }
+        else if (eventcast<.6){
+            majorEvent = "River";
+            //Fording and caulking a river
+        }
+        else {
+            majorEvent = "Fort";
+            //This is an event for the player to receive some supplies
+        }
+        //This will pick a new event and distance to travel for the player.
     }
     private int RandomNumber(int high, int low){
         return (int)(Math.random()*high)+low;
@@ -668,6 +1076,10 @@ public class Controller implements Initializable {
     private void returnToGame(){
         controlPressed();
         tabPane.getSelectionModel().select(3);
+        eventMiles.setText("Distance until event: " + distanceTillEvent + " Miles");
+        milesTraveled.setText("Distance Traveled: " + distanceTraveled + " Miles");
+        date.setText(month + "/" + day + "/" + year);
+        animationDays.setText("Day " + Day);
         //This returns to the oregon trail animation
     }
 

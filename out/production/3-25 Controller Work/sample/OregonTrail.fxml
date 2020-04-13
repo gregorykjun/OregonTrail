@@ -139,7 +139,7 @@
                                                 <Image url="@../resources/loopingbackground.PNG" />
                                             </image>
                                         </ImageView>
-                                        <ImageView fitHeight="107.0" fitWidth="88.0" layoutX="666.0" layoutY="9.0" onMouseClicked="#handleItems" pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fx:id="animationBackpack" fitHeight="107.0" fitWidth="88.0" layoutX="666.0" layoutY="9.0" onMouseClicked="#handleItems" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@../resources/Backpack.png" />
                                             </image>
@@ -164,7 +164,17 @@
                                     <Font name="Courier New Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="306.0" layoutY="369.0" mnemonicParsing="false" onAction="#performanAction" text="Perform an Action">
+                              <Button fx:id="actionBtn" layoutX="306.0" layoutY="369.0" mnemonicParsing="false" onAction="#performanAction" text="Perform an Action">
+                                 <font>
+                                    <Font name="Courier New" size="12.0" />
+                                 </font>
+                              </Button>
+                              <TextArea fx:id="eventTA" editable="false" layoutX="189.0" layoutY="85.0" prefHeight="239.0" prefWidth="372.0" visible="false" wrapText="true">
+                                 <font>
+                                    <Font name="Courier New" size="16.0" />
+                                 </font>
+                              </TextArea>
+                              <Button fx:id="confirmEventBtn" layoutX="342.0" layoutY="288.0" mnemonicParsing="false" onAction="#confirmEvent" text="Confirm" visible="false">
                                  <font>
                                     <Font name="Courier New" size="12.0" />
                                  </font>
