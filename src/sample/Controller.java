@@ -23,6 +23,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
@@ -46,8 +47,9 @@ public class Controller implements Initializable {
     private int Day=0;
     private ArrayList<FamilyMember> family = new ArrayList<>();
     private double foodPrice, oxPrice, bulletPrice, wheelPrice;
-    //@FXML
-    //private Ellipse easyDescription, normalDescription;
+    @FXML
+    private GridPane huntingGridpane;
+
     @FXML
     private TabPane tabPane;
     private String MainCharacterName, WifeName, Child1Name, Child2Name;
@@ -481,6 +483,15 @@ private void minorEvent(){
                                 actionBtn.setVisible(false);
                                 controlPressed();
                             }
+                        }
+                        else {
+                            family.get(randomNumber-1).cureIllness();
+                            eventTA.setVisible(true);
+                            eventTA.setText(family.get(randomNumber-1).getName() + " has been cured.");
+                            confirmEventBtn.setVisible(true);
+                            animationBackpack.setVisible(false);
+                            actionBtn.setVisible(false);
+                            controlPressed();
                         }
                     }
                 }
@@ -1108,5 +1119,23 @@ private void confirmEvent(){
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+    }
+
+
+    //This code ahead will be for hunting.
+    //I will use a gridpane to display the hunting - Just like the life simulator project but each pane will display an imageview of an animal, bush, rock, or tree.
+    //I will use code from my simulation project to implement movement and running away from the player.
+    //15x14 grid
+    private ImageView[][] huntingPositions = new ImageView[15][14];
+    private String[][] huntingNames = new String[15][14];
+    private void loadScreen(){
+        for (int i =0; i <huntingPositions.length;i ++){
+            for (int j = 0; j <huntingPositions[i].length; j++){
+                huntingNames[i][j] = "";
+                huntingPositions[i][j] = new Button();
+                huntingPositions[i][j].set
+            }
+        }
+        //This will be responsible for reloading and resetting the animals in the hunting animation.
     }
 } 
