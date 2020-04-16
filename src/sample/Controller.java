@@ -19,6 +19,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -372,6 +373,9 @@ public class Controller implements Initializable {
                         time = (int) (System.nanoTime()/1000000000);
                     }
                 }
+                else if (tabPane.getSelectionModel().equals(6)){
+
+                }
                 //This is to see if the animation is running and will do a day to day sort of thing.
             }
         }.start();
@@ -411,93 +415,99 @@ public class Controller implements Initializable {
             }
         }
         animationDays.setText("Day " + Day);
-        eventMiles.setText("Distance until event: " + distanceTillEvent + " Miles");
+        eventMiles.setText("Distance until " + majorEvent +":"  + distanceTillEvent + " Miles");
         milesTraveled.setText("Distance Traveled: " + distanceTraveled + " Miles");
         changeDoT();
         minorEvent();
     }
     @FXML
     private void performanAction(){
-
+        tabPane.getSelectionModel().select(6);
+        initializeHunting();
     }
 
 private void minorEvent(){
     System.out.println("works");
     if (Easy){
         if (Math.random() < (.3 + (Day*.01))){
-            System.out.println("yes");
-            double random = Math.random();
-            boolean noillness = false;
-            for (FamilyMember a : family){
-                if (!a.getSick()) {
-                    noillness = true;
-                    break;
+            if (Math.random()<.5){
+                boolean noillness = false;
+                for (FamilyMember a : family){
+                    if (!a.getSick()) {
+                        noillness = true;
+                        break;
+                    }
                 }
-            }
-            if (noillness){
-                if (family.size()>0){
-                    if (random<.4){
-                        int familySize = family.size();
-                        int randomNumber = RandomNumber(familySize , 1);
-                        if (!family.get(randomNumber-1).getSick()){
-                            int illnessChoose = RandomNumber(5,1);
-                            if (illnessChoose == 1){
-                                family.get(randomNumber-1).changeIllness("Cholera");
+                if (noillness){
+                    if (family.size()>0){
+                        System.out.println("Yes");
+                        double random = Math.random();
+                        if (random<.4){
+                            int familySize = family.size();
+                            int randomNumber = RandomNumber(familySize , 1);
+                            System.out.println(randomNumber);
+                            if (!family.get(randomNumber-1).getSick()){
+                                int illnessChoose = RandomNumber(5,1);
+                                if (illnessChoose == 1){
+                                    family.get(randomNumber-1).changeIllness("Cholera");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Cholera.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }
+                                else if (illnessChoose == 2){
+                                    family.get(randomNumber-1).changeIllness("Diphtheria");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Diphtheria.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }else if (illnessChoose == 3){
+                                    family.get(randomNumber-1).changeIllness("Dysentery");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Dysentery.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }else if (illnessChoose == 4){
+                                    family.get(randomNumber-1).changeIllness("Measles");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Measles.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }else {
+                                    family.get(randomNumber-1).changeIllness("Typhoid Fever");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Typhoid Fever.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }
+                            }
+                            else {
+                                family.get(randomNumber-1).cureIllness();
                                 eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Cholera.");
+                                eventTA.setText(family.get(randomNumber-1).getName() + " has been cured.");
                                 confirmEventBtn.setVisible(true);
                                 animationBackpack.setVisible(false);
                                 actionBtn.setVisible(false);
                                 controlPressed();
                             }
-                            else if (illnessChoose == 2){
-                                family.get(randomNumber-1).changeIllness("Diphtheria");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Diphtheria.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
-                            }else if (illnessChoose == 3){
-                                family.get(randomNumber-1).changeIllness("Dysentery");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Dysentery.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
-                            }else if (illnessChoose == 4){
-                                family.get(randomNumber-1).changeIllness("Measles");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Measles.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
-                            }else {
-                                family.get(randomNumber-1).changeIllness("Typhoid Fever");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Typhoid Fever.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
-                            }
-                        }
-                        else {
-                            family.get(randomNumber-1).cureIllness();
-                            eventTA.setVisible(true);
-                            eventTA.setText(family.get(randomNumber-1).getName() + " has been cured.");
-                            confirmEventBtn.setVisible(true);
-                            animationBackpack.setVisible(false);
-                            actionBtn.setVisible(false);
-                            controlPressed();
                         }
                     }
                 }
             }
             else {
+                System.out.println("Here");
                 int randomNumber = RandomNumber(4, 1);
+                System.out.println(randomNumber);
                 if (randomNumber == 1){
                     eventTA.setVisible(true);
                     int daysLost = RandomNumber(5,3);
@@ -539,6 +549,7 @@ private void minorEvent(){
                     actionBtn.setVisible(false);
                 }
                 if (randomNumber == 4){
+                    Ox--;
                     eventTA.setText("Ox has died. You have " + Ox + " ox left.");
                     eventTA.setVisible(true);
                     confirmEventBtn.setVisible(true);
@@ -561,62 +572,64 @@ private void minorEvent(){
     }
     else if (Normal){
         if (Math.random() < (.4 + (Day*.01))){
-            double random = Math.random();
-            boolean noillness = false;
-            for (FamilyMember a : family){
-                if (!a.getSick()) {
-                    noillness = true;
-                    break;
+            if (Math.random()<.5){
+                double random = Math.random();
+                boolean noillness = false;
+                for (FamilyMember a : family){
+                    if (!a.getSick()) {
+                        noillness = true;
+                        break;
+                    }
                 }
-            }
-            if (noillness){
-                if (family.size()>0){
-                    if (random<.4){
-                        int familySize = family.size();
-                        int randomNumber = RandomNumber(familySize,1 );
-                        if (!family.get(randomNumber-1).getSick()){
-                            int illnessChoose = RandomNumber(5,1);
-                            if (illnessChoose == 1){
-                                family.get(randomNumber-1).changeIllness("Cholera");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Cholera.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
-                            }
-                            else if (illnessChoose == 2){
-                                family.get(randomNumber-1).changeIllness("Diphtheria");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Diphtheria.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
-                            }else if (illnessChoose == 3){
-                                family.get(randomNumber-1).changeIllness("Dysentery");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Dysentery.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
-                            }else if (illnessChoose == 4){
-                                family.get(randomNumber-1).changeIllness("Measles");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Measles.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
-                            }else {
-                                family.get(randomNumber-1).changeIllness("Typhoid Fever");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Typhoid Fever.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
+                if (noillness){
+                    if (family.size()>0){
+                        if (random<.4){
+                            int familySize = family.size();
+                            int randomNumber = RandomNumber(familySize,1 );
+                            if (!family.get(randomNumber-1).getSick()){
+                                int illnessChoose = RandomNumber(5,1);
+                                if (illnessChoose == 1){
+                                    family.get(randomNumber-1).changeIllness("Cholera");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Cholera.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }
+                                else if (illnessChoose == 2){
+                                    family.get(randomNumber-1).changeIllness("Diphtheria");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Diphtheria.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }else if (illnessChoose == 3){
+                                    family.get(randomNumber-1).changeIllness("Dysentery");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Dysentery.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }else if (illnessChoose == 4){
+                                    family.get(randomNumber-1).changeIllness("Measles");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Measles.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }else {
+                                    family.get(randomNumber-1).changeIllness("Typhoid Fever");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Typhoid Fever.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }
                             }
                         }
                     }
@@ -683,60 +696,62 @@ private void minorEvent(){
         if (Math.random() < (.5 + (Day*.01))){
             double random = Math.random();
             boolean noillness = false;
-            for (FamilyMember a : family){
-                if (!a.getSick()) {
-                    noillness = true;
-                    break;
+            if (Math.random()<.6){
+                for (FamilyMember a : family){
+                    if (!a.getSick()) {
+                        noillness = true;
+                        break;
+                    }
                 }
-            }
-            if (noillness){
-                if (family.size()>0){
-                    if (random<.4){
-                        int familySize = family.size();
-                        int randomNumber = RandomNumber(familySize,1 );
-                        if (!family.get(randomNumber-1).getSick()){
-                            int illnessChoose = RandomNumber(5,1);
-                            if (illnessChoose == 1){
-                                family.get(randomNumber-1).changeIllness("Cholera");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Cholera.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
-                            }
-                            else if (illnessChoose == 2){
-                                family.get(randomNumber-1).changeIllness("Diphtheria");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Diphtheria.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
-                            }else if (illnessChoose == 3){
-                                family.get(randomNumber-1).changeIllness("Dysentery");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Dysentery.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
-                            }else if (illnessChoose == 4){
-                                family.get(randomNumber-1).changeIllness("Measles");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Measles.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
-                            }else {
-                                family.get(randomNumber-1).changeIllness("Typhoid Fever");
-                                eventTA.setVisible(true);
-                                eventTA.setText(family.get(randomNumber-1).getName() + " has Typhoid Fever.");
-                                confirmEventBtn.setVisible(true);
-                                animationBackpack.setVisible(false);
-                                actionBtn.setVisible(false);
-                                controlPressed();
+                if (noillness){
+                    if (family.size()>0){
+                        if (random<.4){
+                            int familySize = family.size();
+                            int randomNumber = RandomNumber(familySize,1 );
+                            if (!family.get(randomNumber-1).getSick()){
+                                int illnessChoose = RandomNumber(5,1);
+                                if (illnessChoose == 1){
+                                    family.get(randomNumber-1).changeIllness("Cholera");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Cholera.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }
+                                else if (illnessChoose == 2){
+                                    family.get(randomNumber-1).changeIllness("Diphtheria");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Diphtheria.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }else if (illnessChoose == 3){
+                                    family.get(randomNumber-1).changeIllness("Dysentery");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Dysentery.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }else if (illnessChoose == 4){
+                                    family.get(randomNumber-1).changeIllness("Measles");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Measles.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }else {
+                                    family.get(randomNumber-1).changeIllness("Typhoid Fever");
+                                    eventTA.setVisible(true);
+                                    eventTA.setText(family.get(randomNumber-1).getName() + " has Typhoid Fever.");
+                                    confirmEventBtn.setVisible(true);
+                                    animationBackpack.setVisible(false);
+                                    actionBtn.setVisible(false);
+                                    controlPressed();
+                                }
                             }
                         }
                     }
@@ -829,7 +844,7 @@ private void confirmEvent(){
         //This will pick a new event and distance to travel for the player.
     }
     private int RandomNumber(int high, int low){
-        return (int)(Math.random()*high)+low;
+        return (int)(Math.random()*high+low);
     }
 
     private void changeDoT(){
@@ -1087,14 +1102,12 @@ private void confirmEvent(){
     private void returnToGame(){
         controlPressed();
         tabPane.getSelectionModel().select(3);
-        eventMiles.setText("Distance until event: " + distanceTillEvent + " Miles");
+        eventMiles.setText("Distance until " + majorEvent +":"  + distanceTillEvent + " Miles");
         milesTraveled.setText("Distance Traveled: " + distanceTraveled + " Miles");
         date.setText(month + "/" + day + "/" + year);
         animationDays.setText("Day " + Day);
         //This returns to the oregon trail animation
     }
-
-
 
 
     private void switchtoTabPane5(){
@@ -1121,21 +1134,155 @@ private void confirmEvent(){
         // TODO
     }
 
-
     //This code ahead will be for hunting.
-    //I will use a gridpane to display the hunting - Just like the life simulator project but each pane will display an imageview of an animal, bush, rock, or tree.
-    //I will use code from my simulation project to implement movement and running away from the player.
-    //15x14 grid
-    private ImageView[][] huntingPositions = new ImageView[15][14];
-    private String[][] huntingNames = new String[15][14];
-    private void loadScreen(){
-        for (int i =0; i <huntingPositions.length;i ++){
-            for (int j = 0; j <huntingPositions[i].length; j++){
-                huntingNames[i][j] = "";
-                huntingPositions[i][j] = new Button();
-                huntingPositions[i][j].set
+    //I will use a similar method to movement as i did in last year's space invaders project.
+    private String direction;
+    @FXML
+    private ImageView mainCharacterHunting;
+    //750 x 400
+    @FXML
+    private void move(KeyEvent event){
+        if (tabPane.getSelectionModel().equals(6)){
+            if (event.getCode().equals(KeyCode.UP)){
+
+            }
+            else if (event.getCode().equals(KeyCode.DOWN)){
+
+            }
+            else if (event.getCode().equals(KeyCode.LEFT)){
+
+            }
+            else if (event.getCode().equals(KeyCode.RIGHT)){
+
+            }
+            else if (event.getCode().equals(KeyCode.SPACE)){
+                if (Bullets>0){
+
+                }
+            }
+            //Movement and shooting
+        }
+    }
+    private void initializeHunting(){
+        animals = new ArrayList<>();
+        mainCharacterHunting.setX(27);
+        mainCharacterHunting.setY(177);
+        int numberofAnimals = RandomNumber(6,1);
+        while (numberofAnimals>0){
+            int xPos = RandomNumber(665,0);
+            int yPos = RandomNumber(350,0);
+            if (checkPosition(xPos,yPos,85,50)){
+                animals.add(new Animal(xPos,yPos, 85,50));
+            }
+            numberofAnimals--;
+        }
+        for (int i =0; i <animals.size(); i ++){
+
+        }
+        //This will reset the hunting screen and randomize where the animals will be.
+    }
+    private boolean checkPosition(int x, int y, int width, int height){
+        if (x+width>750){
+            return false;
+        }
+        if (y+height>400){
+            return false;
+        }
+        for (int i =x;i < x+width; i++){
+            for (int j = y; j< y+height; j ++){
+                if (animals.size()>0){
+                    for (int k =0 ; k < animals.size(); k ++){
+                        if (animals.get(k).returnX()==i){
+                            return false;
+                        }
+                        if (animals.get(k).returnY() == j){
+                            return false;
+                        }
+                    }
+                }
             }
         }
-        //This will be responsible for reloading and resetting the animals in the hunting animation.
+        return true;
     }
+    private void initializeAnimals(int n){
+        if (n==1){
+            boar1.setVisible(true);
+            boar1.setX(animals.get(0).returnX());
+            boar1.setY(animals.get(0).returnY());
+        }
+        else if (n==2){
+            boar1.setVisible(true);
+            boar2.setVisible(true);
+            boar1.setX(animals.get(0).returnX());
+            boar1.setY(animals.get(0).returnY());
+            boar2.setX(animals.get(1).returnX());
+            boar2.setY(animals.get(1).returnY());
+        }
+        else if (n==3){
+            boar1.setVisible(true);
+            boar2.setVisible(true);
+            boar3.setVisible(true);
+            boar1.setX(animals.get(0).returnX());
+            boar1.setY(animals.get(0).returnY());
+            boar2.setX(animals.get(1).returnX());
+            boar2.setY(animals.get(1).returnY());
+            boar3.setX(animals.get(2).returnX());
+            boar3.setY(animals.get(2).returnY());
+        }
+        else if (n==4){
+            boar1.setVisible(true);
+            boar2.setVisible(true);
+            boar3.setVisible(true);
+            boar4.setVisible(true);
+            boar1.setX(animals.get(0).returnX());
+            boar1.setY(animals.get(0).returnY());
+            boar2.setX(animals.get(1).returnX());
+            boar2.setY(animals.get(1).returnY());
+            boar3.setX(animals.get(2).returnX());
+            boar3.setY(animals.get(2).returnY());
+            boar4.setX(animals.get(3).returnX());
+            boar4.setY(animals.get(3).returnY());
+        }
+        else if (n==5){
+            boar1.setVisible(true);
+            boar2.setVisible(true);
+            boar3.setVisible(true);
+            boar4.setVisible(true);
+            boar5.setVisible(true);
+            boar1.setX(animals.get(0).returnX());
+            boar1.setY(animals.get(0).returnY());
+            boar2.setX(animals.get(1).returnX());
+            boar2.setY(animals.get(1).returnY());
+            boar3.setX(animals.get(2).returnX());
+            boar3.setY(animals.get(2).returnY());
+            boar4.setX(animals.get(3).returnX());
+            boar4.setY(animals.get(3).returnY());
+            boar5.setX(animals.get(4).returnX());
+            boar5.setY(animals.get(4).returnY());
+        }
+        else {
+            boar1.setVisible(true);
+            boar2.setVisible(true);
+            boar3.setVisible(true);
+            boar4.setVisible(true);
+            boar5.setVisible(true);
+            boar6.setVisible(true);
+            boar1.setX(animals.get(0).returnX());
+            boar1.setY(animals.get(0).returnY());
+            boar2.setX(animals.get(1).returnX());
+            boar2.setY(animals.get(1).returnY());
+            boar3.setX(animals.get(2).returnX());
+            boar3.setY(animals.get(2).returnY());
+            boar4.setX(animals.get(3).returnX());
+            boar4.setY(animals.get(3).returnY());
+            boar5.setX(animals.get(4).returnX());
+            boar5.setY(animals.get(4).returnY());
+            boar6.setX(animals.get(5).returnX());
+            boar6.setY(animals.get(5).returnY());
+        }
+        //Sets up the animation for the animals
+    }
+    @FXML
+    private ImageView boar1, boar2, boar3, boar4, boar5, boar6;
+    private ArrayList<Animal> animals;
 } 
