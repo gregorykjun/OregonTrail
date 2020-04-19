@@ -3,6 +3,7 @@ package sample;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
@@ -78,7 +79,7 @@ public class Controller implements Initializable {
 
     //Tabpane 3
     @FXML
-    private Label animationDays;
+    private Label animationDays, foodNotice;
     private boolean animationRunning;
     private int metersLeft;
     private boolean eventPicked;
@@ -366,7 +367,7 @@ public class Controller implements Initializable {
             public void handle(long now) {
                 if (animationRunning){
                     int y = (int)(now/1000000000);
-                    if (y- time >=2){
+                    if (y- time >=1){
                         //New day
                         newDay();
                         changeDoT();
@@ -383,7 +384,48 @@ public class Controller implements Initializable {
     //Once the timer hits 2 seconds, a new day will occur and there will be an event check and changing of the dates.
     //Weather will also possibly change.
     private void newDay(){
+        boolean minor = false;
+        //If a character dies or runs out of food, that will be the minor event for the day.
         Day++;
+        int foodEaten = ((1 + family.size())* RandomNumber(5,3));
+        if (Food - foodEaten <=0){
+            foodNotice.setVisible(true);
+            foodNotice.setText("You have no Food!");
+            if (Food >0){
+                Food = 0;
+            }
+            else {
+                for (FamilyMember a : family){
+                    a.increaseHealth(-1 * RandomNumber(3,1));
+                }
+            }
+        }
+        else {
+            Food = Food - foodEaten;
+            foodNotice.setVisible(false);
+            for (FamilyMember a : family){
+                a.increaseHealth(RandomNumber(4,2));
+            }
+        }
+        for (FamilyMember a : family){
+            a.changeHealthtoIllness();
+        }
+        String deathMessage = "";
+        for (int i =0; i < family.size(); i ++){
+            if (family.get(i).getHealth()<=0){
+                deathMessage = deathMessage + "\n" + family.get(i).getName() + " has died.";
+            }
+        }
+        if (!deathMessage.equals("")){
+            minor = true;
+            eventTA.setVisible(true);
+            eventTA.setText(deathMessage);
+            confirmEventBtn.setVisible(true);
+            animationBackpack.setVisible(false);
+            actionBtn.setVisible(false);
+            controlPressed();
+        }
+        //Food Deduction
         date.setText(month + "/" + day + "/" + year);
         //This will change the food amount, change weather, distance traveled and left till next landmark.
         if (WheelsInUse == 4){
@@ -418,7 +460,9 @@ public class Controller implements Initializable {
         eventMiles.setText("Distance until " + majorEvent +":"  + distanceTillEvent + " Miles");
         milesTraveled.setText("Distance Traveled: " + distanceTraveled + " Miles");
         changeDoT();
-        minorEvent();
+        if (!minor){
+            minorEvent();
+        }
     }
     @FXML
     private void performanAction(){
@@ -824,7 +868,7 @@ private void confirmEvent(){
         confirmEventBtn.setVisible(false);
         actionBtn.setVisible(true);
         animationBackpack.setVisible(true);
-        controlPressed();
+        returnToGame();
 }
     private void newMajorEvent(){
         distanceTillEvent= RandomNumber(150, 90);
@@ -844,7 +888,7 @@ private void confirmEvent(){
         //This will pick a new event and distance to travel for the player.
     }
     private int RandomNumber(int high, int low){
-        return (int)(Math.random()*high+low);
+        return (int)(Math.random()*(high-low+1)) + low;
     }
 
     private void changeDoT(){
@@ -1119,12 +1163,18 @@ private void confirmEvent(){
         itemsDay.setText("Day " + Day);
         if (Easy){
             itemsCharacterImage.setImage(new Image("resources/ForwardEasyCharacter.png"));
+            itemsCharacterDescription.setText(family.get(0).getName() + "'s Condition: " + family.get(0).returnCondition()+ ". Illness: " + family.get(0).returnIllness() );
         }
         else if (Normal){
             itemsCharacterImage.setImage(new Image("resources/ForwardNormalCharacter.png"));
+            itemsCharacterDescription.setText(family.get(0).getName() + "'s Condition: " + family.get(0).returnCondition() + ". Illness: " + family.get(0).returnIllness() + "\n" +
+                    family.get(1).getName() + "'s Condition: " + family.get(1).returnCondition()+ ". Illness: " + family.get(1).returnIllness() );
         }
         else {
             itemsCharacterImage.setImage(new Image("resources/ForwardHardCharacter.png"));
+            itemsCharacterDescription.setText(family.get(0).getName() + "'s Condition: " + family.get(0).returnCondition() + ". Illness: " + family.get(0).returnIllness() + "\n" +
+                    family.get(1).getName() + "'s Condition: " + family.get(1).returnCondition() + ". Illness: " + family.get(1).returnIllness() + "\n" +
+                    family.get(2).getName() + "'s Condition: " + family.get(2).returnCondition()+ ". Illness: " + family.get(2).returnIllness() );
         }
         //To set up : Health description of family
         //This sets up the items tab
@@ -1142,18 +1192,54 @@ private void confirmEvent(){
     //750 x 400
     @FXML
     private void move(KeyEvent event){
-        if (tabPane.getSelectionModel().equals(6)){
-            if (event.getCode().equals(KeyCode.UP)){
-
+        if (tabPane.getSelectionModel().isSelected(6)){
+            if (event.getCode().equals(KeyCode.W)){
+                if (Easy){
+                    mainCharacterHunting.setImage(new Image("resources/BackwardEasyCharacter.png"));
+                }
+                else if (Normal){
+                    mainCharacterHunting.setImage(new Image("resources/BackwardNormalCharacter.png"));
+                }
+                else {
+                    mainCharacterHunting.setImage(new Image("resources/BackwardHardCharacter.png"));
+                }
+                mainCharacterHunting.setY(mainCharacterHunting.getY() - 3);
             }
-            else if (event.getCode().equals(KeyCode.DOWN)){
-
+            else if (event.getCode().equals(KeyCode.S)){
+                if (Easy){
+                    mainCharacterHunting.setImage(new Image("resources/ForwardEasyCharacter.png"));
+                }
+                else if (Normal){
+                    mainCharacterHunting.setImage(new Image("resources/ForwardNormalCharacter.png"));
+                }
+                else {
+                    mainCharacterHunting.setImage(new Image("resources/ForwardHardCharacter.png"));
+                }
+                mainCharacterHunting.setY(mainCharacterHunting.getY() + 3);
             }
-            else if (event.getCode().equals(KeyCode.LEFT)){
-
+            else if (event.getCode().equals(KeyCode.A)){
+                if (Easy){
+                    mainCharacterHunting.setImage(new Image("resources/LeftEasyCharacter.png"));
+                }
+                else if (Normal){
+                    mainCharacterHunting.setImage(new Image("resources/LeftNormalCharacter.png"));
+                }
+                else {
+                    mainCharacterHunting.setImage(new Image("resources/LeftHardCharacter.png"));
+                }
+                mainCharacterHunting.setX(mainCharacterHunting.getX() - 3);
             }
-            else if (event.getCode().equals(KeyCode.RIGHT)){
-
+            else if (event.getCode().equals(KeyCode.D)){
+                if (Easy){
+                    mainCharacterHunting.setImage(new Image("resources/RightEasyCharacter.png"));
+                }
+                else if (Normal){
+                    mainCharacterHunting.setImage(new Image("resources/RightNormalCharacter.png"));
+                }
+                else {
+                    mainCharacterHunting.setImage(new Image("resources/RightHardCharacter.png"));
+                }
+                mainCharacterHunting.setX(mainCharacterHunting.getX() + 3);
             }
             else if (event.getCode().equals(KeyCode.SPACE)){
                 if (Bullets>0){
@@ -1164,6 +1250,16 @@ private void confirmEvent(){
         }
     }
     private void initializeHunting(){
+        controlPressed();
+        if (Easy){
+            mainCharacterHunting.setImage(new Image("resources/ForwardEasyCharacter.png"));
+        }
+        else if (Normal){
+            mainCharacterHunting.setImage(new Image("resources/ForwardNormalCharacter.png"));
+        }
+        else {
+            mainCharacterHunting.setImage(new Image("resources/ForwardHardCharacter.png"));
+        }
         animals = new ArrayList<>();
         mainCharacterHunting.setX(27);
         mainCharacterHunting.setY(177);
@@ -1176,9 +1272,7 @@ private void confirmEvent(){
             }
             numberofAnimals--;
         }
-        for (int i =0; i <animals.size(); i ++){
-
-        }
+        initializeAnimals(animals.size());
         //This will reset the hunting screen and randomize where the animals will be.
     }
     private boolean checkPosition(int x, int y, int width, int height){
