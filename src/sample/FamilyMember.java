@@ -1,7 +1,7 @@
 package sample;
 
 public class FamilyMember {
-    private int Health = 100;
+    public int Health = 100;
     private boolean sick;
     private String illness = "None";
     private String name;

@@ -402,21 +402,36 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="mainCharacterHunting" fitHeight="56.0" fitWidth="38.0" layoutX="27.0" layoutY="177.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="mainCharacterHunting" fitHeight="56.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" x="25.0" y="175.0">
                            <image>
                               <Image url="@../resources/ForwardEasyCharacter.png" />
                            </image></ImageView>
-                        <ImageView fx:id="boar1" fitHeight="53.0" fitWidth="85.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                        <ImageView fx:id="boar1" fitHeight="53.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" visible="false" x="14.0" y="20.0">
                            <image>
                               <Image url="@../resources/boarLeft.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="boar2" fitHeight="53.0" fitWidth="85.0" layoutX="78.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                        <ImageView fx:id="boar2" fitHeight="50.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" visible="false" x="78.0" y="20.0">
                            <image>
                               <Image url="@../resources/boarLeft.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="boar3" fitHeight="53.0" fitWidth="85.0" layoutX="140.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                        <ImageView fx:id="boar3" fitHeight="53.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" visible="false" x="140.0" y="20.0">
+                           <image>
+                              <Image url="@../resources/boarLeft.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="boar4" fitHeight="50.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" visible="false" x="204.0" y="20.0">
+                           <image>
+                              <Image url="@../resources/boarLeft.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="boar5" fitHeight="50.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" visible="false" x="268.0" y="20.0">
+                           <image>
+                              <Image url="@../resources/boarLeft.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="boar6" fitHeight="50.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" visible="false" x="330.0" y="20.0">
                            <image>
                               <Image url="@../resources/boarLeft.png" />
                            </image>
@@ -446,38 +461,43 @@
                               <Image url="@../resources/floweredGrass.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="boar4" fitHeight="53.0" fitWidth="85.0" layoutX="204.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                        <ImageView fx:id="huntingExit" fitHeight="83.0" fitWidth="85.0" layoutX="671.0" layoutY="6.0" onMouseClicked="#exitHunting" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../resources/boarLeft.png" />
+                              <Image url="@../resources/backButton.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="boar5" fitHeight="53.0" fitWidth="85.0" layoutX="268.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                           <image>
-                              <Image url="@../resources/boarLeft.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="boar6" fitHeight="53.0" fitWidth="85.0" layoutX="330.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                           <image>
-                              <Image url="@../resources/boarLeft.png" />
-                           </image>
-                        </ImageView>
+                        <Label fx:id="huntingBulletCounter" layoutX="313.0" layoutY="380.0" text="Bullets Left:" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextArea fx:id="huntingReturn" editable="false" layoutX="220.0" layoutY="87.0" prefHeight="214.0" prefWidth="311.0" visible="false" wrapText="true">
+                           <font>
+                              <Font name="Courier New" size="15.0" />
+                           </font>
+                        </TextArea>
+                        <Button fx:id="confirmHuntingBtn" layoutX="339.0" layoutY="272.0" mnemonicParsing="false" onAction="#confirmHunting" text="Confirm" visible="false">
+                           <font>
+                              <Font name="Courier New" size="13.0" />
+                           </font>
+                        </Button>
                      </children></AnchorPane>
                     </content>
                 </Tab>
 
 
 
-                <Tab text="Untitled Tab 8">
+                <Tab text="River">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                 </Tab>
-                <Tab text="Untitled Tab 9">
+                <Tab text="Lose">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                 </Tab>
-                <Tab text="Untitled Tab 10">
+                <Tab text="Win">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
