@@ -56,5 +56,9 @@ public class Animal {
     public void isDead(){
         dead = true;
     }
+    public void notDead() {
+        dead = false;
+    }
+
 
 }

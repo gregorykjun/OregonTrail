@@ -92,6 +92,7 @@ public class Controller implements Initializable {
     private String majorEvent;
     private String minorEvent;
     private boolean mEvent, lose;
+    private boolean riverAction = false;
     @FXML
     private ImageView animationBackpack;
     @FXML
@@ -103,6 +104,8 @@ public class Controller implements Initializable {
     int day;
     int month;
     int year = 1848;
+    @FXML
+    private Label actionHeading, actionDescription, option1, option2, option3, option4, actionWeather, actionRiverW, actionRiverD, actionDate;
 
     //Tab pane 4
     @FXML
@@ -124,6 +127,18 @@ public class Controller implements Initializable {
     @FXML
     private Button startMenuBtn;
     private boolean Easy=false, Normal=false, Hard=false          , EasySelected = false, NormalSelected = false, HardSelected = false;
+
+
+    private int rtime;
+    private double y =0;
+    private boolean riverStart = false;
+    private boolean riverCross = false;
+    @FXML
+    private TextArea riverTA;
+    @FXML
+    private Button riverConfirmBtn;
+    @FXML
+    private ImageView landLeft, landRight, wagon;
     @FXML
     private void handleButtonAction (ActionEvent event) throws Exception {
         tabPane.getSelectionModel().select(1);
@@ -371,9 +386,9 @@ public class Controller implements Initializable {
             public void handle(long now) {
                 if (animationRunning){
                     double y = (double)(now/1000000000);
-                    if (y- time >=1.5){
+                    if (y- time >=1){
                         //New day
-                        newDay();
+                        increaseDistance();
                         changeDoT();
                         time = (int) (System.nanoTime()/1000000000);
                     }
@@ -437,12 +452,111 @@ public class Controller implements Initializable {
                         }
                     }
                 }
+                else if (riverStart){
+                    if (riverCross){
+                        if (y-time<.5){
+                            y = (double) (now / 1000000000);
+                        }
+                        else if (y-rtime<4.5) {
+                            y = (double) (now / 1000000000);
+                            landRight.setX(landRight.getX() + 2.5);
+                        }
+                        else if (y-rtime<8.5){
+                            y = (double) (now / 1000000000);
+                            landLeft.setX(landLeft.getX() +1.45);
+                        }
+                        else {
+                            riverStart = false;
+                            RiverCross(true);
+                        }
+                    }
+                    else {
+                        if (y-time<.5){
+                            y = (double) (now / 1000000000);
+                        }
+                        else if (y-rtime<4.5) {
+                            y = (double) (now / 1000000000);
+                            landRight.setX(landRight.getX() + 2.5);
+                        }
+                        else if (y-rtime<8.5){
+                            y = (double) (now / 1000000000);
+                            wagon.setImage(new Image("resources/brokenWagon.png"));
+                        }
+                        else {
+                            riverStart = false;
+                            RiverCross(false);
+                        }
+                    }
+                }
                 //This is to see if the animation is running and will do a day to day sort of thing.
             }
         }.start();
     }
     //Once the timer hits 2 seconds, a new day will occur and there will be an event check and changing of the dates.
     //Weather will also possibly change.
+    private boolean majorEventHappening = false;
+    private void increaseDistance(){
+        if (WheelsInUse == 4){
+            int distance = RandomNumber(17,12);
+            distanceTraveled = distanceTraveled + distance;
+            if (distanceTillEvent - distance>0){
+                distanceTillEvent = distanceTillEvent - distance;
+                newDay();
+            }
+            else {
+                Day++;
+                distanceTillEvent = 0;
+                date.setText(month + "/" + day + "/" + year);
+                animationDays.setText("Day " + Day);
+                eventMiles.setText("Distance until " + majorEvent +":"  + distanceTillEvent + " Miles");
+                milesTraveled.setText("Distance Traveled: " + distanceTraveled + " Miles");
+                controlPressed();
+                eventTA.setVisible(true);
+                confirmEventBtn.setVisible(true);
+                animationBackpack.setVisible(false);
+                actionBtn.setVisible(false);
+                if (majorEvent.equals("Store")){
+                    eventTA.setText("You have reached a store.");
+                }
+                else {
+                    eventTA.setText("You have reached a river.");
+                }
+                majorEventHappening = true;
+                eventPicked = false;
+                //Distance event reached, reset a new event and trigger this one.
+            }
+        }
+        else {
+            int distance = RandomNumber(6,11);
+            distanceTraveled = distanceTraveled + distance;
+            if (distanceTillEvent - distance>0){
+                distanceTillEvent = distanceTillEvent - distance;
+                newDay();
+            }
+            else {
+                Day++;
+                distanceTillEvent = 0;
+                date.setText(month + "/" + day + "/" + year);
+                animationDays.setText("Day " + Day);
+                eventMiles.setText("Distance until " + majorEvent +":"  + distanceTillEvent + " Miles");
+                milesTraveled.setText("Distance Traveled: " + distanceTraveled + " Miles");
+                controlPressed();
+                eventTA.setVisible(true);
+                confirmEventBtn.setVisible(true);
+                animationBackpack.setVisible(false);
+                actionBtn.setVisible(false);
+                if (majorEvent.equals("Store")){
+                    eventTA.setText("You have reached the store.");
+                }
+                else {
+                    eventTA.setText("You have reached a river.");
+                }
+                majorEventHappening = true;
+                eventPicked = false;
+                //Distance event reached, reset a new event and trigger this one.
+            }
+        }
+    }
     private void newDay(){
         boolean minor = false;
         //If a character dies or runs out of food, that will be the minor event for the day.
@@ -524,34 +638,6 @@ public class Controller implements Initializable {
             //Food Deduction
             date.setText(month + "/" + day + "/" + year);
             //This will change the food amount, change weather, distance traveled and left till next landmark.
-            if (WheelsInUse == 4){
-                int distance = RandomNumber(17,12);
-                distanceTraveled = distanceTraveled + distance;
-                if (distanceTillEvent - distance>0){
-                    distanceTillEvent = distanceTillEvent - distance;
-                }
-                else {
-                    tabPane.getSelectionModel().select(6);
-                    newMajorEvent();
-                    controlPressed();
-                    eventPicked = false;
-                    //Distance event reached, reset a new event and trigger this one.
-                }
-            }
-            else {
-                int distance = RandomNumber(6,11);
-                distanceTraveled = distanceTraveled + distance;
-                if (distanceTillEvent - distance>0){
-                    distanceTillEvent = distanceTillEvent - distance;
-                }
-                else {
-                    tabPane.getSelectionModel().select(6);
-                    newMajorEvent();
-                    controlPressed();
-                    eventPicked = false;
-                    //Distance event reached, reset a new event and trigger this one.
-                }
-            }
             animationDays.setText("Day " + Day);
             eventMiles.setText("Distance until " + majorEvent +":"  + distanceTillEvent + " Miles");
             milesTraveled.setText("Distance Traveled: " + distanceTraveled + " Miles");
@@ -563,10 +649,68 @@ public class Controller implements Initializable {
     }
     @FXML
     private void performanAction(){
-        tabPane.getSelectionModel().select(6);
+        tabPane.getSelectionModel().select(7);
         controlPressed();
-        initializeHunting();
+        tabPane7perform();
     }
+    private void tabPane7perform(){
+        actionHeading.setText("Perform an Action");
+        actionDescription.setText("What would you like to do?");
+        option1.setText("1. Check the map");
+        option2.setText("2. Hunt for food");
+        option3.setText("3. Attempt to trade with other people.");
+        option4.setText("4. Continue on trail");
+        actionWeather.setVisible(false);
+        actionRiverD.setVisible(false);
+        actionRiverW.setVisible(false);
+        actionDate.setText(month + "/" + day + "/" + year);
+        riverAction = false;
+        //This takes to the perform an action screen, allowing players to do multiple actions.
+    }
+    private int ferryamountCost= 0;
+    private void tabPane7river(){
+        actionHeading.setText("Cross the River");
+        actionDescription.setText("You must cross the river in order to continue. What would you like to do?");
+        ferryamountCost = RandomNumber(75,20);
+        option1.setText("1. Ford the River");
+        option2.setText("2. Caulk the River");
+        option3.setText("3. Pay for a ferry. Ferry costs "+ferryamountCost + " dollars.");
+        option4.setText("4. Wait to see if conditions improve");
+        actionWeather.setVisible(true);
+        actionRiverD.setVisible(true);
+        actionRiverW.setVisible(true);
+        actionDate.setText(month + "/" + day + "/" + year);
+        riverAction = true;
+        tabPane.getSelectionModel().select(7);
+        double decimal = ((int)(Math.random()*10))/10.0;
+        depth =  RandomNumber(3,1) + decimal;
+        width = RandomNumber(225,150);
+        actionRiverW.setText("River Width: " + width);
+        actionRiverD.setText("River Depth: " + depth);
+        changeConditions();
+        //This sets up the pre screen to crossing the river.
+    }
+    private String condition = "";
+    private double depth = 0 ;
+    private int width = 0;
+    private void changeConditions(){
+        actionDate.setText(month + "/" + day + "/" + year);
+        int randomCondition = RandomNumber(4,1);
+        if (randomCondition==1){
+            condition = "Good";
+        }
+        else if (randomCondition==2){
+            condition = "Hot";
+        }
+        else if (randomCondition==2){
+            condition = "Cold";
+        }
+        else {
+            condition = "Freezing";
+        }
+        actionWeather.setText("Weather: " + condition);
+    }
+
 
 private void minorEvent(){
     if (Easy){
@@ -702,11 +846,11 @@ private void minorEvent(){
             //Find gold, Gain food, Gain a wheel, Gain bullets
             //The chance that a negative event will occur is 30% and will increase by 1% every 10 days.
         }
-        else {
+        else if (Math.random()<.2){
             double random = Math.random();
             if (random<.4){
                 //Positive event
-                controlPressed();
+
                 int event = RandomNumber(4,1);
                 if (event == 1){
                     int amount = RandomNumber(3,1);
@@ -719,21 +863,25 @@ private void minorEvent(){
                         SpareWheels = SpareWheels + amount;
                     }
                     eventTA.setText("Lucky Find! Gain " + amount + " wheels.");
+                    controlPressed();
                 }
                 else if (event == 2){
                     int amount = RandomNumber(250,1);
                     Cash = Cash + amount;
                     eventTA.setText("Found gold! Gain " + amount + " dollar(s).");
+                    controlPressed();
                 }
                 else if (event == 3){
                     int amount = RandomNumber(75,25);
                     Food = Food + amount;
                     eventTA.setText("Helpful neighbor! Gain " + amount + " food.");
+                    controlPressed();
                 }
                 else {
                     int amount = RandomNumber(25,10);
                     Bullets = Bullets + amount;
                     eventTA.setText("Helpful soldier! Gain " + amount + " bullets.");
+                    controlPressed();
                 }
                 eventTA.setVisible(true);
                 confirmEventBtn.setVisible(true);
@@ -993,7 +1141,21 @@ private void minorEvent(){
 }
 @FXML
 private void confirmEvent(){
-        if (mEvent){
+        if (majorEventHappening){
+            eventTA.setVisible(false);
+            confirmEventBtn.setVisible(false);
+            majorEventHappening = false;
+            actionBtn.setVisible(true);
+            animationBackpack.setVisible(true);
+            newMajorEvent();
+            if (majorEvent.equals("Store")){
+                switchtoTabPane4();
+            }
+            else {
+                tabPane7river();
+            }
+        }
+        else if (mEvent){
             eventTA.setVisible(false);
             confirmEventBtn.setVisible(false);
             actionBtn.setVisible(true);
@@ -1008,17 +1170,13 @@ private void confirmEvent(){
     private void newMajorEvent(){
         distanceTillEvent= RandomNumber(150, 90);
         double eventcast = Math.random();
-        if (eventcast <.2){
-            majorEvent = "Shop";
+        if (eventcast <.4){
+            majorEvent = "Store";
             //Get more supplies
         }
-        else if (eventcast<.6){
+        else {
             majorEvent = "River";
             //Fording and caulking a river
-        }
-        else {
-            majorEvent = "Fort";
-            //This is an event for the player to receive some supplies
         }
         //This will pick a new event and distance to travel for the player.
     }
@@ -1392,14 +1550,14 @@ private void confirmEvent(){
                 if (Bullets>0){
                     switch (direction) {
                         case "Left":
-                            for (int j = (int) mainCharacterHunting.getX(); j > 0; j--) {
+                            for (int j = (int) mainCharacterHunting.getX(); j > -10; j--) {
                                 int k = (int) mainCharacterHunting.getY() + 28;
                                 for (int i = 0; i < animals.size(); i++) {
                                         for (int a = animals.get(i).xPos; a < (animals.get(i).xPos + animals.get(i).width); a++) {
                                             for (int b = animals.get(i).yPos; b < (animals.get(i).yPos + animals.get(i).height); b++) {
                                                 if (j == a) {
                                                     if (k == b) {
-                                                        animals.get(i).dead = true;
+                                                        animals.get(i).isDead();
                                                         boar.get(i).setImage(new Image("resources/deadBoar.png"));
                                                         break;
                                                     }
@@ -1410,14 +1568,14 @@ private void confirmEvent(){
                             }
                             break;
                         case "Right":
-                            for (int j = (int) mainCharacterHunting.getX(); j < 750; j++) {
+                            for (int j = (int) mainCharacterHunting.getX(); j < 760; j++) {
                                 int k = (int) mainCharacterHunting.getY() + 28;
                                     for (int i = 0; i < animals.size(); i++) {
                                         for (int a = animals.get(i).xPos; a < (animals.get(i).xPos + animals.get(i).width); a++) {
                                             for (int b = animals.get(i).yPos; b < (animals.get(i).yPos + animals.get(i).height); b++) {
                                                 if (j == a) {
                                                     if (k == b) {
-                                                        animals.get(i).dead = true;
+                                                        animals.get(i).isDead();
                                                         boar.get(i).setImage(new Image("resources/deadBoar.png"));
                                                         break;
                                                     }
@@ -1429,14 +1587,14 @@ private void confirmEvent(){
                             }
                             break;
                         case "Up":
-                            for (int k = (int) mainCharacterHunting.getY(); k > 0; k--) {
+                            for (int k = (int) mainCharacterHunting.getY(); k > -10; k--) {
                                 int j =(int) mainCharacterHunting.getX() + 19;
                                     for (int i = 0; i < animals.size(); i++) {
                                         for (int a = animals.get(i).xPos; a < (animals.get(i).xPos + animals.get(i).width); a++) {
                                             for (int b = animals.get(i).yPos; b < (animals.get(i).yPos + animals.get(i).height); b++) {
                                                 if (j == a) {
                                                     if (k == b) {
-                                                        animals.get(i).dead = true;
+                                                        animals.get(i).isDead();
                                                         boar.get(i).setImage(new Image("resources/deadBoar.png"));
                                                         break;
                                                     }
@@ -1449,14 +1607,14 @@ private void confirmEvent(){
 
                             break;
                         case "Down":
-                            for (int k = (int) mainCharacterHunting.getY(); k < 400; k++) {
+                            for (int k = (int) mainCharacterHunting.getY(); k < 410; k++) {
                                 int j =(int) mainCharacterHunting.getX() + 19;
                                     for (int i = 0; i < animals.size(); i++) {
                                         for (int a = animals.get(i).xPos; a < (animals.get(i).xPos + animals.get(i).width); a++) {
                                             for (int b = animals.get(i).yPos; b < (animals.get(i).yPos + animals.get(i).height); b++) {
                                                 if (j == a) {
                                                     if (k == b) {
-                                                        animals.get(i).dead = true;
+                                                        animals.get(i).isDead();
                                                         boar.get(i).setImage(new Image("resources/deadBoar.png"));
                                                         break;
                                                     }
@@ -1466,18 +1624,182 @@ private void confirmEvent(){
                                     }
 
                             }
-
                             break;
                     }
-                    }
                     Bullets--;
+                    }
+
                 huntingBulletCounter.setText("Bullets Left: " + Bullets);
                 }
+            //This allows for player movement and being able to shoot their gun.
             }
+
+        else if (tabPane.getSelectionModel().isSelected(7)){
+            if (riverAction){
+                if (event.getCode().equals(KeyCode.DIGIT1)){
+                    riverCross = action("Ford");
+                    wagon.setImage(new Image("resources/ford.png"));
+                    wagon.setFitWidth(84);
+                    wagon.setFitHeight(44);
+                    wagon.setLayoutX(334);
+                    wagon.setLayoutY(179);
+                    wagon.setX(0);
+                    wagon.setY(0);
+                    riverStart = true;
+                    initializeRiver();
+                }
+                else if (event.getCode().equals(KeyCode.DIGIT2)){
+                    riverCross = action("Caulk");
+                    wagon.setImage(new Image("resources/caulk.png"));
+                    wagon.setFitWidth(82);
+                    wagon.setFitHeight(58);
+                    wagon.setLayoutX(334);
+                    wagon.setLayoutY(180);
+                    wagon.setX(0);
+                    wagon.setY(0);
+                    riverStart = true;
+                    initializeRiver();
+                }
+                else if (event.getCode().equals(KeyCode.DIGIT3)){
+                    if (ferryamountCost<Cash){
+                        riverCross = action("Ferry");
+                        wagon.setImage(new Image("resources/ferry.png"));
+                        wagon.setFitWidth(82);
+                        wagon.setFitHeight(58);
+                        wagon.setLayoutY(180);
+                        wagon.setLayoutX(334);
+                        wagon.setX(0);
+                        wagon.setY(0);
+                        riverStart = true;
+                        initializeRiver();
+                    }
+                    else {
+                        actionDescription.setText("Insufficient Funds. What would you like to do?");
+                    }
+
+                }
+                else {
+                    Day++;
+                    changeDoT();
+                    changeConditions();
+                }
+            }
+            else {
+                if (event.getCode().equals(KeyCode.DIGIT1)){
+                    System.out.println("YES");
+                }
+                else if (event.getCode().equals(KeyCode.DIGIT2)){
+                    initializeHunting();
+                    tabPane.getSelectionModel().select(6);
+                }
+                else if (event.getCode().equals(KeyCode.DIGIT3)){
+                    System.out.println("YES");
+                }
+                else {
+                    returnToGame();
+                }
+            }
+            //eoption1.setText("1. Check the map");
+            //eoption2.setText("2. Hunt for food");
+            //eoption3.setText("3. Attempt to trade with other people.");
+            //eoption4.setText("4. Continue on trail");
+            //option1.setText("1. Ford the River");
+            //        option2.setText("2. Caulk the River");
+            //        option3.setText("3. Pay for a ferry.");
+            //        option4.setText("4. Wait to see if conditions improve");
+            //Good hot cold freezing
+        }
+
+
         //Checking collisions to first boar shot
             //Movement and shooting
         }
+        private boolean action(String a){
+        int probabilty = 100;
+        if (a.equals("Ford")){
+            probabilty = probabilty - 15;
+            if (depth>3){
+                probabilty = probabilty - 40;
+            }
+            if (condition.equals("Good")){
+                probabilty = probabilty + 10;
+            }
+            else if (condition.equals("Hot")){
+                probabilty = probabilty - 10;
+            }
+            else if (condition.equals("Cold")){
+                probabilty = probabilty - 10;
+            }
+            else {
+                probabilty = probabilty -20;
+            }
+            return RandomNumber(100, 1) <= probabilty;
+        }
+        else if (a.equals("Caulk")){
+            probabilty = probabilty - 15;
+            if (depth<3){
+                probabilty = probabilty - 40;
+            }
+            if (condition.equals("Good")){
+                probabilty = probabilty + 10;
+            }
+            else if (condition.equals("Hot")){
+                probabilty = probabilty - 10;
+            }
+            else if (condition.equals("Cold")){
+                probabilty = probabilty - 10;
+            }
+            else {
+                probabilty = probabilty -20;
+            }
+            return RandomNumber(100, 1) <= probabilty;
+        }
+        else {
+            if (condition.equals("Hot")){
+                probabilty = probabilty - 5;
+            }
+            else if (condition.equals("Cold")){
+                probabilty = probabilty - 5;
+            }
+            else {
+                probabilty = probabilty -10;
+            }
+            return RandomNumber(100, 1) <= probabilty;
+            }
+        //This checks to see if the player successfully crossed the river or not.
+        }
+    private void initializeRiver(){
+        tabPane.getSelectionModel().select(8);
+        landRight.setLayoutX(424);
+        landRight.setLayoutY(0);
+        landRight.setX(0);
+        landRight.setFitWidth(1000);
+        landRight.setFitHeight(500);
+        landLeft.setLayoutX(-467);
+        landLeft.setLayoutY(-4);
+        landLeft.setX(0);
+        landLeft.setY(0);
+        landLeft.setFitWidth(1620);
+        landLeft.setFitHeight(703);
+        rtime = (int) (System.nanoTime()/1000000000);
+        //This initializes how the river will look.
+    }
+
+    @FXML
+    private void riverConfirm(){
+        if (lose){
+            tabPane.getSelectionModel().select(9);
+        }
+        else {
+            returnToGame();
+            riverConfirmBtn.setVisible(false);
+            riverTA.setVisible(false);
+        }
+    }
+
+
     private void initializeHunting(){
+
         foodWeight = 0;
         huntingReturn.setVisible(false);
         huntingExit.setVisible(true);
@@ -1492,10 +1814,10 @@ private void confirmEvent(){
         else {
             mainCharacterHunting.setImage(new Image("resources/ForwardHardCharacter.png"));
         }
-        animals = new ArrayList<>();
+
         mainCharacterHunting.setX(25);
         mainCharacterHunting.setY(175);
-        int numberofAnimals = RandomNumber(6,1);
+        int numberofAnimals = RandomNumber(5,1);
         while (numberofAnimals>0){
             int xPos = RandomNumber(665,0);
             int yPos = RandomNumber(350,0);
@@ -1638,19 +1960,105 @@ private void confirmEvent(){
                 foodWeight = foodWeight + animals.get(i).weight;
             }
         }
+
         huntingReturn.setVisible(true);
         huntingExit.setVisible(false);
         confirmHuntingBtn.setVisible(true);
         if (foodWeight>0){
             huntingReturn.setText("You hunted " + foodWeight + " pounds of food. Since it is too heavy, you can only bring back 200 pounds.");
+            Food = Food +200;
         }
         else {
             huntingReturn.setText("You didn't hunt anything!");
         }
+        //This exits the hunting animation
     }
+    private void RiverCross(boolean crossed) {
+        riverTA.setVisible(true);
+        riverConfirmBtn.setVisible(true);
+        //This sets up the consequences or text for when the river animation is completed.
+        if (crossed) {
+            riverTA.setText("You have successfully crossed the river.");
+        } else {
+            int consequence = RandomNumber(100, 1);
+            //Lose wheel, bullets, food, ox, money, people
+                boolean notdead = false;
+                for (int i = 0; i < family.size(); i++) {
+                    if (family.get(i).Health > 0) {
+                        notdead = true;
+                    }
+                }
+                if (notdead){
+                    if (consequence<25){
+                        boolean notdeath = true;
+                        while (notdeath) {
+                            int n = RandomNumber(family.size() - 1, 0);
+                            if (family.get(n).Health > 0) {
+                                notdeath = false;
+                                family.get(n).Health = 0;
+                                riverTA.setText(family.get(n).getName() + " has drowned.");
+                            }
+                        }
+                    }
+                    else if (consequence < 60) {
+                        Ox--;
+                        if (Ox ==0){
+                            riverTA.setText("You have lost an ox. You're out of Ox! Game Over.");
+                            lose = true;
+                        }
+                        else {
+                            riverTA.setText("You have lost an ox.");
+                        }
+
+                    } else {
+                        riverTA.setText("You have lost some supplies.");
+                        Food = Food - RandomNumber(Food/2,Food/5);
+                        Bullets = Bullets - RandomNumber(Bullets/2, Bullets/5);
+                    }
+                }
+                else {
+                    if (consequence < 5) {
+                        riverTA.setText(" You have drowned. Game Over.");
+                        lose = true;
+                    }
+                    else if (consequence < 35) {
+                        Ox--;
+                        if (Ox ==0){
+                            riverTA.setText("You have lost an ox. You're out of Ox! Game Over.");
+                            lose = true;
+                        }
+                        else {
+                            riverTA.setText("You have lost an ox.");
+                        }
+
+                    }
+                    else {
+                        riverTA.setText("You have lost some supplies.");
+                        Food = Food - RandomNumber(Food/2,Food/5);
+                        Bullets = Bullets - RandomNumber(Bullets/2, Bullets/5);
+                    }
+                }
+
+            riverConfirmBtn.setVisible(true);
+            riverTA.setVisible(true);
+        }
+    }
+
+
     @FXML
     private void confirmHunting(){
+        foodWeight  =0;
+        confirmHuntingBtn.setVisible(false);
+        huntingReturn.setVisible(false);
+        for (int i =0; i < animals.size(); i ++ ){
+            animals.get(i).notDead();
+        }
+        for ( int i =0 ; i < boar.size(); i ++){
+            boar.get(i).setImage(new Image("resources/boarLeft.png"));
+        }
+        boar.clear();
         returnToGame();
+        //This returns to the animation
     }
     @FXML
     private Label huntingBulletCounter;
@@ -1663,6 +2071,7 @@ private void confirmEvent(){
     @FXML
     private ImageView boar1, boar2, boar3, boar4, boar5, boar6;
     private ArrayList<ImageView> boar;
-    private ArrayList<Animal> animals;
+    private ArrayList<Animal> animals = new ArrayList<>();
     private int foodWeight = 0;
+
 } 

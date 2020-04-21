@@ -484,12 +484,99 @@
                      </children></AnchorPane>
                     </content>
                 </Tab>
-
-
-
+                <Tab text="Options">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="actionHeading" layoutX="284.0" layoutY="20.0" text="Customizable Action" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="actionDescription" layoutX="14.0" layoutY="50.0" text="You must cross the river in order to continue. What would you like to do?" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="option1" layoutX="14.0" layoutY="92.0" text="1." textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="option2" layoutX="14.0" layoutY="123.0" text="2." textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="option3" layoutX="14.0" layoutY="161.0" text="3." textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="option4" layoutX="14.0" layoutY="202.0" text="4." textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="241.0" layoutY="347.0" text="Type in a number to continue" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="actionDate" layoutX="606.0" layoutY="376.0" text="Date" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="actionWeather" layoutX="337.0" layoutY="263.0" text="Weather:" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="actionRiverW" layoutX="318.0" layoutY="282.0" text="River Width:" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="actionRiverD" layoutX="318.0" layoutY="301.0" text="River Depth:" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="361.0" layoutY="69.0" text="Label" />
+                     </children></AnchorPane>
+                    </content>
+                </Tab>
                 <Tab text="River">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="landLeft" fitHeight="150.0" fitWidth="200.0" layoutX="35.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/leftLand.jpg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="landRight" fitHeight="150.0" fitWidth="200.0" layoutX="325.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/land.jpg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="wagon" fitHeight="150.0" fitWidth="200.0" layoutX="110.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/caulk.png" />
+                           </image>
+                        </ImageView>
+                        <TextArea fx:id="riverTA" editable="false" layoutX="189.0" layoutY="65.0" prefHeight="229.0" prefWidth="372.0" visible="false" wrapText="true">
+                           <font>
+                              <Font name="Courier New" size="14.0" />
+                           </font>
+                        </TextArea>
+                        <Button fx:id="riverConfirmBtn" layoutX="336.0" layoutY="259.0" mnemonicParsing="false" onAction="#riverConfirm" text="Confirm" visible="false">
+                           <font>
+                              <Font name="Courier New" size="14.0" />
+                           </font>
+                        </Button>
+                     </children></AnchorPane>
                     </content>
                 </Tab>
                 <Tab text="Lose">
