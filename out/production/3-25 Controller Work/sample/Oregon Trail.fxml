@@ -543,7 +543,6 @@
                               <Font name="Courier New" size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="361.0" layoutY="69.0" text="Label" />
                      </children></AnchorPane>
                     </content>
                 </Tab>
@@ -579,14 +578,192 @@
                      </children></AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="Lose">
+                <Tab text="Trade">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     </content>
                 </Tab>
+                <Tab text="CheckMap">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="345.0" fitWidth="574.0" layoutX="100.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/OregonTrailMap.jpg" />
+                           </image>
+                        </ImageView>
+                     </children></AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Lose">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="424.0" fitWidth="582.0" layoutX="92.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/loseScreen.jpg" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="313.0" layoutY="226.0" text="Here lies:">
+                           <font>
+                              <Font name="Courier New Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="loseWife" layoutX="339.0" layoutY="293.0" text="Wife:" textAlignment="CENTER">
+                           <font>
+                              <Font name="Courier New Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="loseC1" layoutX="329.0" layoutY="319.0" text="Child 1" textAlignment="CENTER">
+                           <font>
+                              <Font name="Courier New Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="loseC2" layoutX="329.0" layoutY="345.0" text="Child 2" textAlignment="CENTER">
+                           <font>
+                              <Font name="Courier New Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="loseMain" layoutX="339.0" layoutY="264.0" text="Main:" textAlignment="CENTER">
+                           <font>
+                              <Font name="Courier New Bold" size="17.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
+                    </content>
+                </Tab>
                 <Tab text="Win">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="403.0" fitWidth="892.0" layoutX="73.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/winScreenOregon.png" />
+                           </image>
+                        </ImageView>
+                     </children></AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Score">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="212.0" layoutY="26.0" text="Points for Arriving in Oregon:" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="212.0" layoutY="97.0" text="People in good health" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalScore" layoutX="512.0" layoutY="352.0" text="Total:" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="215.0" layoutY="242.0" text="Pounds of Food" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="215.0" layoutY="205.0" text="Bullets" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="215.0" layoutY="168.0" text="Wheels" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="215.0" layoutY="133.0" text="Oxen" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="scoreHealth" layoutX="160.0" layoutY="98.0" text="Label" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="scoreOx" layoutX="160.0" layoutY="133.0" text="Label" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="scoreWheels" layoutX="160.0" layoutY="168.0" text="Label" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="scoreBullets" layoutX="160.0" layoutY="205.0" text="Label" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="scoreFood" layoutX="160.0" layoutY="242.0" text="Label" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="pointsHealth" layoutX="567.0" layoutY="98.0" text="Label" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="pointsFood" layoutX="567.0" layoutY="242.0" text="Label" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="pointsBullets" layoutX="567.0" layoutY="205.0" text="Label" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="pointsWheels" layoutX="567.0" layoutY="168.0" text="Label" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="pointsOx" layoutX="567.0" layoutY="133.0" text="Label" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="215.0" layoutY="316.0" text="Difficulty" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="scoreDifficulty" layoutX="160.0" layoutY="316.0" text="Label" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="pointsDifficulty" layoutX="567.0" layoutY="316.0" text="Label" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="scoreCash" layoutX="160.0" layoutY="280.0" text="Label" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="215.0" layoutY="280.0" text="Cash" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="pointsCash" layoutX="567.0" layoutY="280.0" text="Label" textFill="WHITE">
+                           <font>
+                              <Font name="Courier New Bold" size="14.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
                     </content>
                 </Tab>
             </tabs>

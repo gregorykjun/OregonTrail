@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Light;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
@@ -88,9 +89,9 @@ public class Controller implements Initializable {
     private int time;
     private int distanceTraveled=0;
     private int distanceTillEvent;
-    private int milestoWin = 2880;
+    private int milestoWin = 2;
+    private boolean win = false;
     private String majorEvent;
-    private String minorEvent;
     private boolean mEvent, lose;
     private boolean riverAction = false;
     @FXML
@@ -406,14 +407,14 @@ public class Controller implements Initializable {
                                 }
                                 if (r==2){
                                     animals.get(i).moveDirection = "Left";
-                                    boar.get(i).setImage(new Image("resources/boarLeft.png"));
+                                    boarArrayList.get(i).setImage(new Image("resources/boarLeft.png"));
                                 }
                                 if (r==3){
                                     animals.get(i).moveDirection = "Down";
                                 }
                                 if (r==4){
                                     animals.get(i).moveDirection = "Right";
-                                    boar.get(i).setImage(new Image("resources/boarRight.png"));
+                                    boarArrayList.get(i).setImage(new Image("resources/boarRight.png"));
                                 }
                                 if (r==5){
                                     animals.get(i).moveDirection = "Still";
@@ -423,27 +424,27 @@ public class Controller implements Initializable {
                             else {
                                 switch (animals.get(i).moveDirection) {
                                     case "Up":
-                                        if (boar.get(i).getY() >= 0) {
-                                            boar.get(i).setY(boar.get(i).getY() - 1);
+                                        if (boarArrayList.get(i).getY() >= 0) {
+                                            boarArrayList.get(i).setY(boarArrayList.get(i).getY() - 1);
                                         }
                                         animals.get(i).yPos = animals.get(i).yPos - 1;
 
                                         break;
                                     case "Left":
-                                        if (boar.get(i).getX() >= 0) {
-                                            boar.get(i).setX(boar.get(i).getX() - 1);
+                                        if (boarArrayList.get(i).getX() >= 0) {
+                                            boarArrayList.get(i).setX(boarArrayList.get(i).getX() - 1);
                                         }
                                         animals.get(i).xPos = animals.get(i).xPos - 1;
                                         break;
                                     case "Down":
-                                        if (boar.get(i).getY() + 53 <= 400) {
-                                            boar.get(i).setY(boar.get(i).getY() + 1);
+                                        if (boarArrayList.get(i).getY() + 53 <= 400) {
+                                            boarArrayList.get(i).setY(boarArrayList.get(i).getY() + 1);
                                         }
                                         animals.get(i).yPos = animals.get(i).yPos + 1;
                                         break;
                                     case "Right":
-                                        if (boar.get(i).getX() <= 750) {
-                                            boar.get(i).setX(boar.get(i).getX() + 1);
+                                        if (boarArrayList.get(i).getX() <= 750) {
+                                            boarArrayList.get(i).setX(boarArrayList.get(i).getX() + 1);
                                         }
                                         animals.get(i).xPos = animals.get(i).xPos + 1;
                                         break;
@@ -499,7 +500,16 @@ public class Controller implements Initializable {
         if (WheelsInUse == 4){
             int distance = RandomNumber(17,12);
             distanceTraveled = distanceTraveled + distance;
-            if (distanceTillEvent - distance>0){
+            if (milestoWin - distanceTraveled <=0){
+                win = true;
+                eventTA.setText("You have reached Oregon! You win!!");
+                controlPressed();
+                eventTA.setVisible(true);
+                confirmEventBtn.setVisible(true);
+                animationBackpack.setVisible(false);
+                actionBtn.setVisible(false);
+            }
+            else if (distanceTillEvent - distance>0){
                 distanceTillEvent = distanceTillEvent - distance;
                 newDay();
             }
@@ -694,6 +704,9 @@ public class Controller implements Initializable {
     private double depth = 0 ;
     private int width = 0;
     private void changeConditions(){
+        double decimal = ((int)(Math.random()*10))/10.0;
+        depth =  RandomNumber(3,1) + decimal;
+        actionRiverD.setText("River Depth: " + depth);
         actionDate.setText(month + "/" + day + "/" + year);
         int randomCondition = RandomNumber(4,1);
         if (randomCondition==1){
@@ -714,7 +727,7 @@ public class Controller implements Initializable {
 
 private void minorEvent(){
     if (Easy){
-        if (Math.random() < (.15 + (Day*.01))){
+        if (Math.random() < (.15 + (Day*.001))){
             if (Math.random()<.5){
                 boolean noillness = false;
                 for (FamilyMember a : family){
@@ -835,7 +848,14 @@ private void minorEvent(){
                 if (randomNumber == 4){
                     Ox--;
                     controlPressed();
-                    eventTA.setText("Ox has died. You have " + Ox + " ox left.");
+                    if (Ox == 0){
+                        lose = true;
+                        eventTA.setText("Ox has died. You have " + Ox + " ox left. You lose!");
+                    }
+                    else {
+                        eventTA.setText("Ox has died. You have " + Ox + " ox left.");
+                    }
+
                     eventTA.setVisible(true);
                     confirmEventBtn.setVisible(true);
                     animationBackpack.setVisible(false);
@@ -891,7 +911,7 @@ private void minorEvent(){
         }
     }
     else if (Normal){
-        if (Math.random() < (.2 + (Day*.01))){
+        if (Math.random() < (.2 + (Day*.003))){
             if (Math.random()<.5){
                 double random = Math.random();
                 boolean noillness = false;
@@ -1013,7 +1033,7 @@ private void minorEvent(){
         }
     }
     else {
-        if (Math.random() < (.25 + (Day*.01))){
+        if (Math.random() < (.23 + (Day*.005))){
             double random = Math.random();
             boolean noillness = false;
             if (Math.random()<.6){
@@ -1141,19 +1161,22 @@ private void minorEvent(){
 }
 @FXML
 private void confirmEvent(){
-        if (majorEventHappening){
+        if (win){
+            winScreen();
+        }
+        else if (majorEventHappening){
             eventTA.setVisible(false);
             confirmEventBtn.setVisible(false);
             majorEventHappening = false;
             actionBtn.setVisible(true);
             animationBackpack.setVisible(true);
-            newMajorEvent();
             if (majorEvent.equals("Store")){
                 switchtoTabPane4();
             }
             else {
                 tabPane7river();
             }
+            newMajorEvent();
         }
         else if (mEvent){
             eventTA.setVisible(false);
@@ -1164,7 +1187,7 @@ private void confirmEvent(){
             mEvent = false;
         }
        else if (lose){
-           tabPane.getSelectionModel().select(8);
+           loseScreen();
         }
 }
     private void newMajorEvent(){
@@ -1546,90 +1569,92 @@ private void confirmEvent(){
                 }
                 direction = "Right";
             }
-            else if (event.getCode().equals(KeyCode.SPACE)){
-                if (Bullets>0){
+            else if (event.getCode().equals(KeyCode.SPACE)) {
+                if (tabPane.getSelectionModel().isSelected(6)){
+                if (Bullets > 0) {
                     switch (direction) {
                         case "Left":
                             for (int j = (int) mainCharacterHunting.getX(); j > -10; j--) {
                                 int k = (int) mainCharacterHunting.getY() + 28;
                                 for (int i = 0; i < animals.size(); i++) {
-                                        for (int a = animals.get(i).xPos; a < (animals.get(i).xPos + animals.get(i).width); a++) {
-                                            for (int b = animals.get(i).yPos; b < (animals.get(i).yPos + animals.get(i).height); b++) {
-                                                if (j == a) {
-                                                    if (k == b) {
-                                                        animals.get(i).isDead();
-                                                        boar.get(i).setImage(new Image("resources/deadBoar.png"));
-                                                        break;
-                                                    }
+                                    for (int a = animals.get(i).xPos; a < (animals.get(i).xPos + animals.get(i).width); a++) {
+                                        for (int b = animals.get(i).yPos; b < (animals.get(i).yPos + animals.get(i).height); b++) {
+                                            if (j == a) {
+                                                if (k == b) {
+                                                    animals.get(i).isDead();
+                                                    boarArrayList.get(i).setImage(new Image("resources/deadBoar.png"));
+                                                    break;
                                                 }
                                             }
                                         }
                                     }
+                                }
                             }
                             break;
                         case "Right":
                             for (int j = (int) mainCharacterHunting.getX(); j < 760; j++) {
                                 int k = (int) mainCharacterHunting.getY() + 28;
-                                    for (int i = 0; i < animals.size(); i++) {
-                                        for (int a = animals.get(i).xPos; a < (animals.get(i).xPos + animals.get(i).width); a++) {
-                                            for (int b = animals.get(i).yPos; b < (animals.get(i).yPos + animals.get(i).height); b++) {
-                                                if (j == a) {
-                                                    if (k == b) {
-                                                        animals.get(i).isDead();
-                                                        boar.get(i).setImage(new Image("resources/deadBoar.png"));
-                                                        break;
-                                                    }
+                                for (int i = 0; i < animals.size(); i++) {
+                                    for (int a = animals.get(i).xPos; a < (animals.get(i).xPos + animals.get(i).width); a++) {
+                                        for (int b = animals.get(i).yPos; b < (animals.get(i).yPos + animals.get(i).height); b++) {
+                                            if (j == a) {
+                                                if (k == b) {
+                                                    animals.get(i).isDead();
+                                                    boarArrayList.get(i).setImage(new Image("resources/deadBoar.png"));
+                                                    break;
                                                 }
                                             }
                                         }
                                     }
+                                }
 
                             }
                             break;
                         case "Up":
                             for (int k = (int) mainCharacterHunting.getY(); k > -10; k--) {
-                                int j =(int) mainCharacterHunting.getX() + 19;
-                                    for (int i = 0; i < animals.size(); i++) {
-                                        for (int a = animals.get(i).xPos; a < (animals.get(i).xPos + animals.get(i).width); a++) {
-                                            for (int b = animals.get(i).yPos; b < (animals.get(i).yPos + animals.get(i).height); b++) {
-                                                if (j == a) {
-                                                    if (k == b) {
-                                                        animals.get(i).isDead();
-                                                        boar.get(i).setImage(new Image("resources/deadBoar.png"));
-                                                        break;
-                                                    }
+                                int j = (int) mainCharacterHunting.getX() + 19;
+                                for (int i = 0; i < animals.size(); i++) {
+                                    for (int a = animals.get(i).xPos; a < (animals.get(i).xPos + animals.get(i).width); a++) {
+                                        for (int b = animals.get(i).yPos; b < (animals.get(i).yPos + animals.get(i).height); b++) {
+                                            if (j == a) {
+                                                if (k == b) {
+                                                    animals.get(i).isDead();
+                                                    boarArrayList.get(i).setImage(new Image("resources/deadBoar.png"));
+                                                    break;
                                                 }
                                             }
                                         }
                                     }
+                                }
 
                             }
 
                             break;
                         case "Down":
                             for (int k = (int) mainCharacterHunting.getY(); k < 410; k++) {
-                                int j =(int) mainCharacterHunting.getX() + 19;
-                                    for (int i = 0; i < animals.size(); i++) {
-                                        for (int a = animals.get(i).xPos; a < (animals.get(i).xPos + animals.get(i).width); a++) {
-                                            for (int b = animals.get(i).yPos; b < (animals.get(i).yPos + animals.get(i).height); b++) {
-                                                if (j == a) {
-                                                    if (k == b) {
-                                                        animals.get(i).isDead();
-                                                        boar.get(i).setImage(new Image("resources/deadBoar.png"));
-                                                        break;
-                                                    }
+                                int j = (int) mainCharacterHunting.getX() + 19;
+                                for (int i = 0; i < animals.size(); i++) {
+                                    for (int a = animals.get(i).xPos; a < (animals.get(i).xPos + animals.get(i).width); a++) {
+                                        for (int b = animals.get(i).yPos; b < (animals.get(i).yPos + animals.get(i).height); b++) {
+                                            if (j == a) {
+                                                if (k == b) {
+                                                    animals.get(i).isDead();
+                                                    boarArrayList.get(i).setImage(new Image("resources/deadBoar.png"));
+                                                    break;
                                                 }
                                             }
                                         }
                                     }
+                                }
 
                             }
                             break;
                     }
                     Bullets--;
-                    }
+                }
 
                 huntingBulletCounter.setText("Bullets Left: " + Bullets);
+            }
                 }
             //This allows for player movement and being able to shoot their gun.
             }
@@ -1686,16 +1711,16 @@ private void confirmEvent(){
             }
             else {
                 if (event.getCode().equals(KeyCode.DIGIT1)){
-                    System.out.println("YES");
+                    tabPane.getSelectionModel().select(10);
                 }
                 else if (event.getCode().equals(KeyCode.DIGIT2)){
                     initializeHunting();
                     tabPane.getSelectionModel().select(6);
                 }
                 else if (event.getCode().equals(KeyCode.DIGIT3)){
-                    System.out.println("YES");
+                    tabPane.getSelectionModel().select(9);
                 }
-                else {
+                else if (event.getCode().equals(KeyCode.DIGIT4)){
                     returnToGame();
                 }
             }
@@ -1708,6 +1733,16 @@ private void confirmEvent(){
             //        option3.setText("3. Pay for a ferry.");
             //        option4.setText("4. Wait to see if conditions improve");
             //Good hot cold freezing
+        }
+        else if (tabPane.getSelectionModel().isSelected(10)){
+            if (event.getCode().equals(KeyCode.SPACE)){
+                returnToGame();
+            }
+        }
+        else if (tabPane.getSelectionModel().isSelected(12)){
+            if (event.getCode().equals(KeyCode.SPACE)){
+                scoreScreen();
+            }
         }
 
 
@@ -1853,12 +1888,11 @@ private void confirmEvent(){
         return true;
     }
     private void initializeAnimals(int n){
-        boar = new ArrayList<>();
         if (n==1){
             boar1.setVisible(true);
             boar1.setX(animals.get(0).returnX());
             boar1.setY(animals.get(0).returnY());
-            boar.add(boar1);
+            boarArrayList.add(boar1);
         }
         else if (n==2){
             boar1.setVisible(true);
@@ -1867,8 +1901,8 @@ private void confirmEvent(){
             boar1.setY(animals.get(0).returnY());
             boar2.setX(animals.get(1).returnX());
             boar2.setY(animals.get(1).returnY());
-           boar.add(boar1);
-           boar.add(boar2);
+            boarArrayList.add(boar1);
+            boarArrayList.add(boar2);
         }
         else if (n==3){
             boar1.setVisible(true);
@@ -1880,9 +1914,9 @@ private void confirmEvent(){
             boar2.setY(animals.get(1).returnY());
             boar3.setX(animals.get(2).returnX());
             boar3.setY(animals.get(2).returnY());
-            boar.add(boar1);
-            boar.add(boar2);
-            boar.add(boar3);
+            boarArrayList.add(boar1);
+            boarArrayList.add(boar2);
+            boarArrayList.add(boar3);
 
         }
         else if (n==4){
@@ -1898,10 +1932,10 @@ private void confirmEvent(){
             boar3.setY(animals.get(2).returnY());
             boar4.setX(animals.get(3).returnX());
             boar4.setY(animals.get(3).returnY());
-            boar.add(boar1);
-            boar.add(boar2);
-            boar.add(boar3);
-            boar.add(boar4);
+            boarArrayList.add(boar1);
+            boarArrayList.add(boar2);
+            boarArrayList.add(boar3);
+            boarArrayList.add(boar4);
         }
         else if (n==5){
             boar1.setVisible(true);
@@ -1919,11 +1953,11 @@ private void confirmEvent(){
             boar4.setY(animals.get(3).returnY());
             boar5.setX(animals.get(4).returnX());
             boar5.setY(animals.get(4).returnY());
-            boar.add(boar1);
-            boar.add(boar2);
-            boar.add(boar3);
-            boar.add(boar4);
-            boar.add(boar5);
+            boarArrayList.add(boar1);
+            boarArrayList.add(boar2);
+            boarArrayList.add(boar3);
+            boarArrayList.add(boar4);
+            boarArrayList.add(boar5);
         }
         else {
             boar1.setVisible(true);
@@ -1944,12 +1978,12 @@ private void confirmEvent(){
             boar5.setY(animals.get(4).returnY());
             boar6.setX(animals.get(5).returnX());
             boar6.setY(animals.get(5).returnY());
-            boar.add(boar1);
-            boar.add(boar2);
-            boar.add(boar3);
-            boar.add(boar4);
-            boar.add(boar5);
-            boar.add(boar6);
+            boarArrayList.add(boar1);
+            boarArrayList.add(boar2);
+            boarArrayList.add(boar3);
+            boarArrayList.add(boar4);
+            boarArrayList.add(boar5);
+            boarArrayList.add(boar6);
         }
         //Sets up the animation for the animals
     }
@@ -1971,92 +2005,21 @@ private void confirmEvent(){
         else {
             huntingReturn.setText("You didn't hunt anything!");
         }
+        foodWeight = 0;
         //This exits the hunting animation
     }
-    private void RiverCross(boolean crossed) {
-        riverTA.setVisible(true);
-        riverConfirmBtn.setVisible(true);
-        //This sets up the consequences or text for when the river animation is completed.
-        if (crossed) {
-            riverTA.setText("You have successfully crossed the river.");
-        } else {
-            int consequence = RandomNumber(100, 1);
-            //Lose wheel, bullets, food, ox, money, people
-                boolean notdead = false;
-                for (int i = 0; i < family.size(); i++) {
-                    if (family.get(i).Health > 0) {
-                        notdead = true;
-                    }
-                }
-                if (notdead){
-                    if (consequence<25){
-                        boolean notdeath = true;
-                        while (notdeath) {
-                            int n = RandomNumber(family.size() - 1, 0);
-                            if (family.get(n).Health > 0) {
-                                notdeath = false;
-                                family.get(n).Health = 0;
-                                riverTA.setText(family.get(n).getName() + " has drowned.");
-                            }
-                        }
-                    }
-                    else if (consequence < 60) {
-                        Ox--;
-                        if (Ox ==0){
-                            riverTA.setText("You have lost an ox. You're out of Ox! Game Over.");
-                            lose = true;
-                        }
-                        else {
-                            riverTA.setText("You have lost an ox.");
-                        }
-
-                    } else {
-                        riverTA.setText("You have lost some supplies.");
-                        Food = Food - RandomNumber(Food/2,Food/5);
-                        Bullets = Bullets - RandomNumber(Bullets/2, Bullets/5);
-                    }
-                }
-                else {
-                    if (consequence < 5) {
-                        riverTA.setText(" You have drowned. Game Over.");
-                        lose = true;
-                    }
-                    else if (consequence < 35) {
-                        Ox--;
-                        if (Ox ==0){
-                            riverTA.setText("You have lost an ox. You're out of Ox! Game Over.");
-                            lose = true;
-                        }
-                        else {
-                            riverTA.setText("You have lost an ox.");
-                        }
-
-                    }
-                    else {
-                        riverTA.setText("You have lost some supplies.");
-                        Food = Food - RandomNumber(Food/2,Food/5);
-                        Bullets = Bullets - RandomNumber(Bullets/2, Bullets/5);
-                    }
-                }
-
-            riverConfirmBtn.setVisible(true);
-            riverTA.setVisible(true);
-        }
-    }
-
-
     @FXML
     private void confirmHunting(){
-        foodWeight  =0;
+        boar1.setImage(new Image ("resources/boarLeft.png"));
+        boar2.setImage(new Image ("resources/boarRight.png"));
+        boar3.setImage(new Image ("resources/boarLeft.png"));
+        boar4.setImage(new Image ("resources/boarRight.png"));
+        boar5.setImage(new Image ("resources/boarLeft.png"));
+        boar6.setImage(new Image ("resources/boarRight.png"));
         confirmHuntingBtn.setVisible(false);
         huntingReturn.setVisible(false);
-        for (int i =0; i < animals.size(); i ++ ){
-            animals.get(i).notDead();
-        }
-        for ( int i =0 ; i < boar.size(); i ++){
-            boar.get(i).setImage(new Image("resources/boarLeft.png"));
-        }
-        boar.clear();
+        animals.clear();
+        boarArrayList.clear();
         returnToGame();
         //This returns to the animation
     }
@@ -2070,8 +2033,148 @@ private void confirmEvent(){
     private ImageView huntingExit;
     @FXML
     private ImageView boar1, boar2, boar3, boar4, boar5, boar6;
-    private ArrayList<ImageView> boar;
+    private ArrayList<ImageView> boarArrayList = new ArrayList<>();
     private ArrayList<Animal> animals = new ArrayList<>();
     private int foodWeight = 0;
+    private void RiverCross(boolean crossed) {
+        riverTA.setVisible(true);
+        riverConfirmBtn.setVisible(true);
+        //This sets up the consequences or text for when the river animation is completed.
+        if (crossed) {
+            riverTA.setText("You have successfully crossed the river.");
+        } else {
+            int consequence = RandomNumber(100, 1);
+            //Lose wheel, bullets, food, ox, money, people
+            boolean notdead = false;
+            for (int i = 0; i < family.size(); i++) {
+                if (family.get(i).Health > 0) {
+                    notdead = true;
+                }
+            }
+            if (notdead){
+                if (consequence<25){
+                    boolean notdeath = true;
+                    while (notdeath) {
+                        int n = RandomNumber(family.size() - 1, 0);
+                        if (family.get(n).Health > 0) {
+                            notdeath = false;
+                            family.get(n).Health = 0;
+                            riverTA.setText(family.get(n).getName() + " has drowned.");
+                        }
+                    }
+                }
+                else if (consequence < 60) {
+                    Ox--;
+                    if (Ox ==0){
+                        riverTA.setText("You have lost an ox. You're out of Ox! Game Over.");
+                        lose = true;
+                    }
+                    else {
+                        riverTA.setText("You have lost an ox.");
+                    }
+
+                } else {
+                    riverTA.setText("You have lost some supplies.");
+                    Food = Food - RandomNumber(Food/2,Food/5);
+                    Bullets = Bullets - RandomNumber(Bullets/2, Bullets/5);
+                }
+            }
+            else {
+                if (consequence < 5) {
+                    riverTA.setText(" You have drowned. Game Over.");
+                    lose = true;
+                }
+                else if (consequence < 35) {
+                    Ox--;
+                    if (Ox ==0){
+                        riverTA.setText("You have lost an ox. You're out of Ox! Game Over.");
+                        lose = true;
+                    }
+                    else {
+                        riverTA.setText("You have lost an ox.");
+                    }
+                }
+                else {
+                    riverTA.setText("You have lost some supplies.");
+                    Food = Food - RandomNumber(Food/2,Food/5);
+                    Bullets = Bullets - RandomNumber(Bullets/2, Bullets/5);
+                }
+            }
+
+            riverConfirmBtn.setVisible(true);
+            riverTA.setVisible(true);
+        }
+        //This sets up what would happen if the wagon failed to cross and thus subtracts or removes some family members
+    }
+    @FXML
+    private Label loseMain, loseWife, loseC1, loseC2;
+    private void loseScreen(){
+        tabPane.getSelectionModel().select(11);
+        loseMain.setText(MainCharacterName);
+        loseWife.setText(WifeName);
+        if (Normal){
+            loseC1.setText(Child1Name);
+        }
+        else if (Hard){
+            loseC1.setText(Child1Name);
+            loseC2.setText(Child2Name);
+        }
+    }
+    private void winScreen(){
+        tabPane.getSelectionModel().select(12);
+    }
+
+    @FXML
+    private Label scoreHealth, scoreOx, scoreWheels, scoreBullets, scoreFood, scoreDifficulty, scoreCash;
+    @FXML
+    private Label pointsHealth, pointsOx, pointsWheels, pointsBullets, pointsFood, pointsDifficulty, pointsCash, totalScore;
+    private void scoreScreen() {
+        tabPane.getSelectionModel().select(13);
+        int healthy = 0;
+        for (FamilyMember a : family) {
+            if (a.returnCondition().equals("Good")) {
+                healthy++;
+            }
+        }
+        int points = 0;
+        scoreHealth.setText(healthy + "");
+        pointsHealth.setText((healthy*100) + "");
+        points = points + (healthy*100);
+
+        scoreOx.setText(Ox + "");
+        pointsOx.setText((Ox*4)+"");
+        points = points + (Ox*4);
+
+        scoreWheels.setText(SpareWheels + "");
+        pointsWheels.setText((SpareWheels*2)+ "");
+        points = points + (SpareWheels*2);
+
+        scoreBullets.setText(Bullets + "");
+        pointsBullets.setText((Bullets/50)+"");
+        points = points + (Bullets/50);
+
+        scoreFood.setText(Food+"");
+        pointsFood.setText((Food/25)+"");
+        points = points + (Food/25);
+
+        scoreCash.setText((int)Cash + "");
+        pointsCash.setText(((int)Cash/3)+"");
+        points = points + ((int)Cash/3);
+        if (Easy){
+            scoreDifficulty.setText("Easy");
+            pointsDifficulty.setText("x1 Bonus");
+        }
+        else if (Normal){
+            scoreDifficulty.setText("Normal");
+            pointsDifficulty.setText("x2 Bonus");
+            points = points*2;
+        }
+        else {
+            scoreDifficulty.setText("Hard");
+            pointsDifficulty.setText("x3 Bonus");
+            points = points*3;
+        }
+        totalScore.setText("Total:" + points);
+    }
 
 } 
