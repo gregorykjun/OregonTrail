@@ -89,7 +89,7 @@ public class Controller implements Initializable {
     private int time;
     private int distanceTraveled=0;
     private int distanceTillEvent;
-    private int milestoWin = 2;
+    private int milestoWin = 2880;
     private boolean win = false;
     private String majorEvent;
     private boolean mEvent, lose;
@@ -1719,6 +1719,7 @@ private void confirmEvent(){
                 }
                 else if (event.getCode().equals(KeyCode.DIGIT3)){
                     tabPane.getSelectionModel().select(9);
+                    setUpTrade();
                 }
                 else if (event.getCode().equals(KeyCode.DIGIT4)){
                     returnToGame();
@@ -1734,6 +1735,19 @@ private void confirmEvent(){
             //        option4.setText("4. Wait to see if conditions improve");
             //Good hot cold freezing
         }
+        else if (tabPane.getSelectionModel().isSelected(9)){
+            if (event.getCode().equals(KeyCode.DIGIT1)){
+                acceptTrade();
+            }
+            else if (event.getCode().equals(KeyCode.DIGIT2)){
+                setUpTrade();
+                doneTrade = false;
+            }
+            else if (event.getCode().equals(KeyCode.SPACE)){
+                exitTrade();
+            }
+        }
+        //Confirm or look for another trader
         else if (tabPane.getSelectionModel().isSelected(10)){
             if (event.getCode().equals(KeyCode.SPACE)){
                 returnToGame();
@@ -2176,5 +2190,222 @@ private void confirmEvent(){
         }
         totalScore.setText("Total:" + points);
     }
+    private void setUpTrade(){
+        doneTrade= false;
+        tabPane.getSelectionModel().select(9);
+        int give = RandomNumber(5,1);
+        int want = RandomNumber(5,1);
+        while (want==give){
+            want = RandomNumber(5,1);
+        }
+        if (want == 1){
+            tradeWant = "Bullets";
+        }
+        else if (want == 2){
+            tradeWant = "Ox";
+        }
+        else if (want == 3){
+            tradeWant = "Money";
+        }
+        else if (want==4){
+            tradeWant = "Wheels";
+        }
+        else {
+            tradeWant = "Food";
+        }
+        if (give == 1){
+            tradeGiven = RandomNumber(40,100);
+            tradeGive = "Bullets";
+            if (tradeWant.equals("Ox")){
+                tradeWanted = RandomNumber(1,3);
+            }
+            else if (tradeWant.equals("Money")){
+                tradeWanted = RandomNumber(4,50);
+            }
+            else if (tradeWant.equals("Wheels")){
+                tradeWanted = RandomNumber(1,7);
+            }
+            else {
+                tradeWanted = RandomNumber(25,50);
+            }
+        }
+        else if (give == 2){
+            tradeGiven = RandomNumber(1,3);
+            tradeGive = "Ox";
+            if (tradeWant.equals("Bullets")){
+                tradeWanted = tradeGiven*RandomNumber(75,200);
+            }
+            else if (tradeWant.equals("Money")){
+                tradeWanted = tradeGiven*RandomNumber(125,200);
+            }
+            else if (tradeWant.equals("Wheels")){
+                tradeWanted = tradeGiven*RandomNumber(5,15);
+            }
+            else {
+                tradeWanted = tradeGiven*RandomNumber(100,300);
+            }
+        }
+        else if (give == 3){
+            tradeGiven = RandomNumber(75,200);
+            tradeGive = "Money";
+            if (tradeWant.equals("Bullets")){
+                tradeWanted =RandomNumber(50,100);
+            }
+            else if (tradeWant.equals("Ox")){
+                tradeWanted = RandomNumber(1,2);
+            }
+            else if (tradeWant.equals("Wheels")){
+                tradeWanted = RandomNumber(5,15);
+            }
+            else {
+                tradeWanted = RandomNumber(75,250);
+            }
+        }
+        else if (give==4){
+            tradeGiven = RandomNumber(1,6);
+            tradeGive = "Wheels";
+            if (tradeWant.equals("Bullets")){
+                tradeWanted = tradeGiven*RandomNumber(20,45);
+            }
+            else if (tradeWant.equals("Ox")){
+                tradeWanted = RandomNumber(1,2);
+            }
+            else if (tradeWant.equals("Money")){
+                tradeWanted = tradeGiven*RandomNumber(20,30);
+            }
+            else {
+                tradeWanted = tradeGiven*RandomNumber(40,75);
+            }
+        }
+        else {
+            tradeGiven = RandomNumber(50,150);
+            tradeGive = "Food";
+            if (tradeWant.equals("Bullets")){
+                tradeWanted = tradeGiven*RandomNumber(1,2);
+            }
+            else if (tradeWant.equals("Ox")){
+                tradeWanted = RandomNumber(1,2);
+            }
+            else if (tradeWant.equals("Money")){
+                tradeWanted = tradeGiven*RandomNumber(2,3);
+            }
+            else {
+                tradeWanted = RandomNumber(5,15);
+            }
+        }
+        tradeInformation.setText("This trader is willing to give you " + tradeGiven + " "+tradeGive+ " for " + tradeWanted + tradeWant+".");
 
+        //Bullets, Ox, Money, Wheels, Food
+        //This will set up the new trade information
+    }
+    private void acceptTrade() {
+        if (!doneTrade) {
+            if (tradeWant.equals("Bullets")) {
+                if (Bullets >= tradeWanted) {
+                    Bullets = Bullets - tradeWanted;
+                    if (tradeGive.equals("Bullets")) {
+                        Bullets = Bullets + tradeGiven;
+                    } else if (tradeGive.equals("Ox")) {
+                        Ox = Ox + tradeGiven;
+                    } else if (tradeGive.equals("Money")) {
+                        Cash = Cash + tradeGiven;
+                    } else if (tradeGive.equals("Wheels")) {
+                        SpareWheels = SpareWheels + tradeGiven;
+                    } else {
+                        Food = Food + tradeGiven;
+                    }
+                    doneTrade = true;
+                    tradeInformation.setText("The person thanks you for trading with them.");
+                } else {
+                    tradeInformation.setText("Insufficient amount. This trader is willing to give you " + tradeGiven + " " + tradeGive + " for " + tradeWanted + tradeWant + ".");
+                }
+            } else if (tradeWant.equals("Ox")) {
+                if (Ox >= tradeWanted) {
+                    Ox = Ox - tradeWanted;
+                    if (tradeGive.equals("Bullets")) {
+                        Bullets = Bullets + tradeGiven;
+                    } else if (tradeGive.equals("Ox")) {
+                        Ox = Ox + tradeGiven;
+                    } else if (tradeGive.equals("Money")) {
+                        Cash = Cash + tradeGiven;
+                    } else if (tradeGive.equals("Wheels")) {
+                        SpareWheels = SpareWheels + tradeGiven;
+                    } else {
+                        Food = Food + tradeGiven;
+                    }
+                    doneTrade = true;
+                    tradeInformation.setText("The person thanks you for trading with them.");
+                } else {
+                    tradeInformation.setText("Insufficient amount. This trader is willing to give you " + tradeGiven + " " + tradeGive + " for " + tradeWanted + tradeWant + ".");
+                }
+            } else if (tradeWant.equals("Money")) {
+                if (Cash >= tradeWanted) {
+                    Cash = Cash - tradeWanted;
+                    if (tradeGive.equals("Bullets")) {
+                        Bullets = Bullets + tradeGiven;
+                    } else if (tradeGive.equals("Ox")) {
+                        Ox = Ox + tradeGiven;
+                    } else if (tradeGive.equals("Money")) {
+                        Cash = Cash + tradeGiven;
+                    } else if (tradeGive.equals("Wheels")) {
+                        SpareWheels = SpareWheels + tradeGiven;
+                    } else {
+                        Food = Food + tradeGiven;
+                    }
+                    doneTrade = true;
+                    tradeInformation.setText("The person thanks you for trading with them.");
+                } else {
+                    tradeInformation.setText("Insufficient amount. This trader is willing to give you " + tradeGiven + " " + tradeGive + " for " + tradeWanted + tradeWant + ".");
+                }
+            } else if (tradeWant.equals("Wheels")) {
+                if (SpareWheels >= tradeWanted) {
+                    SpareWheels = SpareWheels - tradeWanted;
+                    if (tradeGive.equals("Bullets")) {
+                        Bullets = Bullets + tradeGiven;
+                    } else if (tradeGive.equals("Ox")) {
+                        Ox = Ox + tradeGiven;
+                    } else if (tradeGive.equals("Money")) {
+                        Cash = Cash + tradeGiven;
+                    } else if (tradeGive.equals("Wheels")) {
+                        SpareWheels = SpareWheels + tradeGiven;
+                    } else {
+                        Food = Food + tradeGiven;
+                    }
+                    doneTrade = true;
+                    tradeInformation.setText("The person thanks you for trading with them.");
+                } else {
+                    tradeInformation.setText("Insufficient amount. This trader is willing to give you " + tradeGiven + " " + tradeGive + " for " + tradeWanted + tradeWant + ".");
+                }
+            } else {
+                if (Food >= tradeWanted) {
+                    Food = Food - tradeWanted;
+                    if (tradeGive.equals("Bullets")) {
+                        Bullets = Bullets + tradeGiven;
+                    } else if (tradeGive.equals("Ox")) {
+                        Ox = Ox + tradeGiven;
+                    } else if (tradeGive.equals("Money")) {
+                        Cash = Cash + tradeGiven;
+                    } else if (tradeGive.equals("Wheels")) {
+                        SpareWheels = SpareWheels + tradeGiven;
+                    } else {
+                        Food = Food + tradeGiven;
+                    }
+                    doneTrade = true;
+                    tradeInformation.setText("The person thanks you for trading with them.");
+                } else {
+                    tradeInformation.setText("Insufficient amount. This trader is willing to give you " + tradeGiven + " " + tradeGive + " for " + tradeWanted + " "+tradeWant + ".");
+                }
+            }
+        }
+    }
+    private void exitTrade(){
+        tradeGiven = 0; tradeWanted = 0;
+        tradeGive=""; tradeWant = "";
+        returnToGame();
+    }
+    private int tradeGiven = 0, tradeWanted = 0;
+    private String tradeGive="", tradeWant = "";
+    @FXML
+    private Label tradeInformation;
+    private boolean doneTrade = false;
 } 
